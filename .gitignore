@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+.DS_Store
+npm-debug.log*
+.npm-cache/
+npm-install*.log
+package-lock.invalid.json
+tsconfig.tsbuildinfo
+allimgs/

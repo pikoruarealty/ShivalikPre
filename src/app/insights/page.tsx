@@ -1,0 +1,7 @@
+import Link from "next/link";
+import { SiteHeader } from "@/components/layout/site-header";
+import { Breadcrumbs, JsonLd } from "@/components/seo/seo-ui";
+import { insights } from "@/data/seo";
+import { createPageMetadata, websiteSchema } from "@/lib/seo";
+export const metadata = createPageMetadata({ title: "Insights | Shivalik Présenté", description: "Considered property guides on GIFT City, luxury residences and buyer questions.", path: "/insights" });
+export default function InsightsPage() { const featured = insights[0]; return <><SiteHeader /><main className="seo-page"><JsonLd data={websiteSchema()} /><div className="seo-wrap"><Breadcrumbs items={[{ href: "/", label: "Home" }, { href: "/insights", label: "Insights" }]} /><header className="seo-hero"><p className="section-label">Property Insights</p><h1>Notes on place, space and considered ownership.</h1><p>A quiet editorial journal for buyers exploring GIFT City and large-format residential living.</p></header><article className="insight-feature"><p>{featured.category}</p><h2><Link href={`/insights/${featured.slug}`}>{featured.title}</Link></h2><p>{featured.excerpt}</p><Link href={`/insights/${featured.slug}`}>Read the guide <span aria-hidden="true">↗</span></Link></article><div className="insight-grid">{insights.slice(1).map((item) => <article key={item.slug}><p>{item.category} <span>·</span> {item.publishedDate}</p><h2><Link href={`/insights/${item.slug}`}>{item.title}</Link></h2><p>{item.excerpt}</p><Link href={`/insights/${item.slug}`}>Read article</Link></article>)}</div></div></main></>; }

@@ -1,0 +1,155 @@
+export const project = {
+  projectName: "Shivalik Presente",
+  displayName: "Shivalik Présenté",
+  location: "GIFT City, Gandhinagar",
+  positioning: "Ultra-luxury boutique riverfront residences.",
+  description:
+    "A private collection of riverfront residences shaped around space, light, and a quieter way of living in GIFT City.",
+  highlights: [
+    "54 total residences",
+    "51 simplex residences",
+    "3 duplex penthouses",
+    "Approximately 4 metre internal height",
+    "Riverfront-facing residences",
+    "Private lift foyer experience",
+    "No common or shared walls",
+    "Floating vista decks",
+  ],
+  residenceCounts: {
+    total: 54,
+    simplex: 51,
+    duplexPenthouses: 3,
+  },
+  configurations: [
+    { label: "4 BHK", area: "Approximately 6,300-7,100 sq. ft." },
+    { label: "6 BHK Duplex Penthouses", area: "Approximately 12,250-13,700 sq. ft." },
+  ],
+  towers: ["Arima", "Bouquet", "Cadeau"],
+  features: [
+    "Low-density luxury living",
+    "Private lift foyer",
+    "Floating vista decks",
+    "Riverfront-facing residences",
+  ],
+  statistics: [
+    { value: "54", label: "Residences" },
+    { value: "51", label: "Simplex Residences" },
+    { value: "03", label: "Duplex Penthouses" },
+    { value: "4 M", label: "Approx. Internal Height" },
+  ],
+  privacyFeatures: ["No shared walls", "Private lift foyer", "Low-density living", "Only 54 residences"],
+  editorial: {
+    introduction: "An intimate collection of riverfront residences shaped around privacy, scale and understated elegance in GIFT City.",
+    riverfront: "Riverfront-facing residences frame changing skies, open views and the evolving skyline of GIFT City.",
+    towers: "A composed collection of three residential expressions, united by a single architectural vision.",
+    vista: "Floating vista decks create a seamless relationship between interior living and the riverfront horizon.",
+  },
+  residences: {
+    introduction: "Expansive homes composed around privacy, natural light and the riverfront horizon.",
+    fourBhk: {
+      label: "4 BHK Residences",
+      sizeRange: "Approx. 6,300-7,100 sq.ft.",
+      description: "Ultra-spacious residences planned for generous everyday living, personal privacy and a seamless relationship with the riverfront.",
+      features: ["Private lift foyer", "No shared walls", "Riverfront-facing", "Floating vista decks"],
+    },
+    penthouse: {
+      label: "Duplex Penthouses",
+      sizeRange: "Approx. 12,250-13,700 sq.ft.",
+      description: "A limited collection of duplex residences conceived for exceptional scale, privacy and elevated living.",
+      features: ["Private lift foyer", "No shared walls", "Riverfront-facing"],
+    },
+  },
+  volume: {
+    value: "4 M",
+    unit: "Internal Height",
+    title: "Space is not only measured across a floor.",
+    description: "An approximately four-metre internal height creates a heightened sense of openness, light and architectural scale.",
+  },
+  interiorStories: [
+    { number: "01", title: "The Living", description: "Generous spaces designed for everyday gathering and quiet moments alike." },
+    { number: "02", title: "The Retreat", description: "Private zones shaped around calm, proportion and natural light." },
+    { number: "03", title: "The Entertaining", description: "Expansive settings that allow hosting to feel effortless and personal." },
+    { number: "04", title: "The Vista", description: "Indoor living extending naturally toward the riverfront decks." },
+  ],
+  amenities: {
+    introduction: {
+      label: "The Club",
+      title: "Where time slows down.",
+      description: "A considered collection of spaces for wellness, leisure, gathering and everyday pause.",
+      secondary: "Designed as an extension of home, the shared experience remains intimate, refined and composed.",
+    },
+    wellness: [
+      { number: "01", name: "Infinity Swimming Pool", category: "Pool", description: "A calm setting shaped around water, light and open views." },
+      { number: "02", name: "Fitness Centre", category: "Fitness", description: "A dedicated environment for movement and everyday wellbeing." },
+      { number: "03", name: "Wellness / Spa Spaces", category: "Wellness", description: "Private spaces designed for restoration and slower moments." },
+    ],
+    leisure: [
+      { name: "Cinema / Theatre", category: "Private Cinema" },
+      { name: "Indoor Recreation", category: "Indoor Recreation" },
+      { name: "Banquet / Entertainment Areas", category: "Entertainment" },
+    ],
+    social: [
+      { name: "Residents Lounge", category: "Lounge" },
+      { name: "Dining / Social Areas", category: "Dining" },
+      { name: "Private Gathering Spaces", category: "Gathering" },
+      { name: "Banquet / Entertainment Areas", category: "Entertainment" },
+    ],
+    outdoor: ["Landscaped Open Spaces", "Premium Seating Areas", "Relaxation / Gathering Zones"],
+    gallery: [
+      { label: "Wellness", caption: "Pool", className: "gallery-pool" },
+      { label: "Fitness", caption: "Movement", className: "gallery-fitness" },
+      { label: "Leisure", caption: "Cinema", className: "gallery-cinema" },
+      { label: "Social", caption: "Lounge", className: "gallery-lounge" },
+      { label: "Open Spaces", caption: "Landscape", className: "gallery-landscape" },
+      { label: "Social", caption: "Gathering", className: "gallery-gathering" },
+    ],
+  },
+  locationContext: {
+    city: "GIFT City",
+    region: "Ahmedabad–Gandhinagar region",
+    summary: "GIFT City brings together finance, business, infrastructure and a new generation of urban living within the Ahmedabad–Gandhinagar region.",
+    residentialContext: "For residents of Présenté, this means living close to a growing commercial ecosystem while retaining the calm of a riverfront residential address.",
+    connectivity: [
+      { name: "Ahmedabad", description: "Urban connectivity" },
+      { name: "Gandhinagar", description: "Civic and institutional access" },
+      { name: "Airport", description: "Regional and international connectivity" },
+      { name: "Metro", description: "Growing public transport access" },
+      { name: "Business District", description: "GIFT City commercial ecosystem" },
+    ],
+    advantages: [
+      { title: "Business", description: "Financial and institutional ecosystem" },
+      { title: "Infrastructure", description: "Modern planned urban environment" },
+      { title: "Connectivity", description: "Integrated Ahmedabad–Gandhinagar access" },
+      { title: "Lifestyle", description: "An evolving residential and commercial destination" },
+    ],
+    investment: {
+      title: "A long-term urban story.",
+      description: "For buyers evaluating premium real estate, GIFT City offers a distinctive combination of business growth, infrastructure development and limited high-end residential supply.",
+      pillars: ["Business ecosystem", "Infrastructure growth", "Premium residential demand", "Long-term urban development", "NRI relevance"],
+      nriNote: "For NRI and global buyers, GIFT City’s international business profile can make it a relevant location to evaluate for long-term residential ownership.",
+    },
+    map: {
+      coordinates: null,
+      landmarks: [],
+      label: "Located within GIFT City.",
+      supportingLine: "Positioned within the Ahmedabad–Gandhinagar growth corridor.",
+    },
+  },
+  cta: {
+    primary: "Explore Présenté",
+    enquiry: "Request a private presentation",
+  },
+  contact: {
+    phone: null,
+    whatsapp: null,
+    email: null,
+  },
+  leadSettings: {
+    popupDelayMs: 6000,
+    popupScrollThreshold: 0.25,
+    popupSessionKey: "presente-lead-popup-seen",
+    enableExitIntent: true,
+  },
+} as const;
+
+export type Project = typeof project;
