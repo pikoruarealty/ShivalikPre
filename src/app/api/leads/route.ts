@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { serverConfig } from "@/lib/config";
+export const runtime = "nodejs";
+export const maxDuration = 10;
 const text = (value: unknown, limit: number) => typeof value === "string" ? value.trim().slice(0, limit) : "";
 const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const variants = new Set(["private-presentation", "brochure", "project-details", "general-enquiry"]);

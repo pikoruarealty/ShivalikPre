@@ -14,6 +14,14 @@ npm run dev
 
 Run `npm run typecheck`, `npm run lint`, and `npm run build` before deployment.
 
+## Vercel deployment
+
+1. Import `BAPUx03/ShivalikPre` into Vercel. The framework is detected automatically as Next.js; use the repository root as the Root Directory and keep the default `npm run build` command.
+2. The project is pinned to Node.js 22 through `package.json`. No custom output directory or static export setting is required.
+3. In **Project Settings → Environment Variables**, add the values from `.env.example` for the environments you need. Set `NEXT_PUBLIC_SITE_URL` to the final `https://` production domain.
+4. Add `LEAD_WEBHOOK_URL` and, when supported by the receiving endpoint, `LEAD_API_SECRET` to Production and Preview. These are server-only secrets—never prefix them with `NEXT_PUBLIC_` and never commit their values.
+5. Redeploy after editing environment variables. The enquiry endpoint intentionally returns a safe error until `LEAD_WEBHOOK_URL` is configured.
+
 ## Configuration
 
 Set `NEXT_PUBLIC_SITE_URL` to the verified production URL. Contact actions remain hidden until the verified phone, WhatsApp, and email variables are supplied. `LEAD_WEBHOOK_URL` is server-only; without it, the enquiry API safely returns an unconfigured response instead of claiming delivery.
