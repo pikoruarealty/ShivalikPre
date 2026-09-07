@@ -2,20 +2,29 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { navigation } from "@/data/navigation";
 import { Container } from "./container";
 import { MobileMenu } from "./mobile-menu";
 import { LeadButton } from "@/components/forms/lead-button";
+import { trackEvent } from "@/lib/analytics";
+import { project } from "@/data/project";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuToggle = useRef<HTMLButtonElement>(null);
+  const closeMenu = () => {
+    setMenuOpen(false);
+    window.requestAnimationFrame(() => menuToggle.current?.focus());
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      window.requestAnimationFrame(() => menuToggle.current?.focus());
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -46,14 +55,15 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="header-actions">
+          <a className="header-whatsapp" href={`https://wa.me/${project.contact.whatsapp}`} target="_blank" rel="noreferrer" onClick={() => trackEvent("whatsapp_click", { source: "header" })}>WhatsApp</a>
           <LeadButton className="header-cta" source="header" variant="private-presentation" buttonVariant="text">Private Presentation</LeadButton>
-          <button className="menu-toggle" type="button" onClick={() => setMenuOpen(true)} aria-label="Open navigation menu" aria-expanded={menuOpen} aria-controls="mobile-navigation">
+          <button ref={menuToggle} className="menu-toggle" type="button" onClick={() => setMenuOpen(true)} aria-label="Open navigation menu" aria-expanded={menuOpen} aria-controls="mobile-navigation">
             <span /><span />
           </button>
         </div>
       </Container>
       </header>
-      <div id="mobile-navigation"><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} /></div>
+      <div id="mobile-navigation"><MobileMenu open={menuOpen} onClose={closeMenu} /></div>
     </>
   );
 }

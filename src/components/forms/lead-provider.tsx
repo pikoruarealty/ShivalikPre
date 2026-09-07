@@ -17,7 +17,16 @@ export function LeadProvider({ children }: { children: ReactNode }) {
   const [variant, setVariant] = useState<LeadVariant>("private-presentation");
   const shown = useRef(false);
   const mountedAt = useRef<number | undefined>(undefined);
-  const openLeadModal = useCallback((nextSource: string, nextVariant: LeadVariant = "general-enquiry") => { setSource(nextSource); setVariant(nextVariant); setSuccess(false); setOpen(true); trackEvent("lead_modal_open", { source: nextSource, variant: nextVariant }); }, []);
+  const openLeadModal = useCallback((nextSource: string, nextVariant: LeadVariant = "general-enquiry") => {
+    // A visitor who has already opened the form should never have it replaced by
+    // an automatic trigger during the same session.
+    shown.current = true;
+    setSource(nextSource);
+    setVariant(nextVariant);
+    setSuccess(false);
+    setOpen(true);
+    trackEvent("lead_modal_open", { source: nextSource, variant: nextVariant });
+  }, []);
   const close = useCallback(() => { setOpen(false); sessionStorage.setItem(project.leadSettings.popupSessionKey, "true"); trackEvent("lead_modal_close", { source, variant }); }, [source, variant]);
   const autoOpen = useCallback((reason: "timer" | "scroll" | "exit") => { if (shown.current || sessionStorage.getItem(project.leadSettings.popupSessionKey)) return; shown.current = true; openLeadModal("auto-popup", "private-presentation"); trackEvent("lead_modal_open", { source: "auto-popup", trigger: reason }); }, [openLeadModal]);
   useEffect(() => {
@@ -28,7 +37,7 @@ export function LeadProvider({ children }: { children: ReactNode }) {
     window.addEventListener("scroll", scroll, { passive: true }); window.addEventListener("mouseout", exit);
     return () => { window.clearTimeout(timer); window.removeEventListener("scroll", scroll); window.removeEventListener("mouseout", exit); };
   }, [autoOpen]);
-  return <LeadModalContext.Provider value={{ openLeadModal }}><div id="main-content" tabIndex={-1}>{children}</div><LeadCaptureModal open={open} source={source} variant={variant} success={success} onClose={close} onSuccess={() => { setSuccess(true); sessionStorage.setItem(project.leadSettings.popupSessionKey, "true"); }} /><MobileStickyCta /></LeadModalContext.Provider>;
+  return <LeadModalContext.Provider value={{ openLeadModal }}><div id="main-content" tabIndex={-1}>{children}</div><LeadCaptureModal key={open ? `${source}-${variant}` : "closed"} open={open} source={source} variant={variant} success={success} onClose={close} onSuccess={() => { setSuccess(true); sessionStorage.setItem(project.leadSettings.popupSessionKey, "true"); }} /><MobileStickyCta /></LeadModalContext.Provider>;
 }
 
 export function useLeadModal() {

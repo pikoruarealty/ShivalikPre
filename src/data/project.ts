@@ -140,9 +140,9 @@ export const project = {
     enquiry: "Request a private presentation",
   },
   contact: {
-    phone: null,
-    whatsapp: null,
-    email: null,
+    phone: "+91 63543 59222",
+    whatsapp: "916354359222",
+    email: "luxuryrealestateahmedabad@gmail.com",
   },
   leadSettings: {
     popupDelayMs: 6000,

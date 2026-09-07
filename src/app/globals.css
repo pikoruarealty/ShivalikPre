@@ -663,6 +663,72 @@ main { overflow: clip; }
   .mobile-sticky-cta, .mobile-menu .mobile-nav-link, .mobile-menu .mobile-menu-footer, .lead-modal-backdrop, .lead-modal { animation: none !important; transition: none !important; transform: none !important; }
 }
 
+/* Mobile enquiry sheet: keep the form usable above the browser controls and keyboard. */
+@media (max-width: 800px) {
+  .lead-modal-backdrop {
+    display: flex;
+    align-items: flex-end;
+    padding: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .lead-modal {
+    display: block;
+    width: 100%;
+    max-height: min(92dvh, 780px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 24px 24px 0 0;
+  }
+  .lead-modal-content {
+    overflow: visible;
+    padding: 48px 20px max(30px, env(safe-area-inset-bottom));
+  }
+  .lead-modal-close {
+    top: 12px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    background: rgba(250, 248, 243, .92);
+  }
+  .lead-modal-content h2 {
+    max-width: 10ch;
+    margin-bottom: 14px;
+    font-size: clamp(2.35rem, 11vw, 3.25rem);
+    line-height: .96;
+  }
+  .lead-modal-description {
+    max-width: 34ch;
+    margin-bottom: 16px;
+  }
+  .site-visit-badge {
+    width: auto;
+    margin-bottom: 20px;
+    padding: 8px 11px;
+    font-size: 8px;
+    letter-spacing: .11em;
+  }
+  .lead-form {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .lead-field input, .lead-field select, .phone-field {
+    min-height: 50px;
+    height: 50px;
+    font-size: 16px;
+  }
+  .phone-field input { height: 48px; }
+  .lead-submit {
+    min-height: 52px;
+    margin-top: 4px;
+    padding-inline: 16px;
+    font-size: 11px;
+  }
+  .lead-privacy { font-size: 10px; }
+  .lead-benefits { margin-top: 18px; line-height: 1.6; }
+}
+
 /* Présenté supplied-asset treatment */
 .image-frame.has-image { background-color: #302f2b; background-position: center; background-repeat: no-repeat; background-size: cover; }
 .image-frame.has-image::before { background: linear-gradient(90deg, rgba(13,13,12,.17), transparent 50%, rgba(247,243,235,.05)); }
@@ -711,4 +777,90 @@ main { overflow: clip; }
   .open-spaces-heading { margin-bottom: 34px; }.open-spaces-figure { margin: 0; }.open-spaces-figure figcaption { display: grid; grid-template-columns: 1fr; gap: 10px; }
   .volume-value span { font-size: clamp(6rem, 27vw, 9rem); }.size-display span { font-size: clamp(2.7rem, 12vw, 4.2rem); }
   .mobile-sticky-cta { right: 14px; bottom: max(14px, env(safe-area-inset-bottom)); }.mobile-sticky-cta .button { min-height: 50px; }
+}
+
+/* Mobile interaction safeguards: overlays must never compete with the floating CTA. */
+@media (max-width: 800px) {
+  .mobile-menu { z-index: 40; }
+  body.menu-is-open .mobile-sticky-cta,
+  body.modal-is-open .mobile-sticky-cta {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .mobile-sticky-cta { max-width: calc(100vw - 28px); }
+  .mobile-sticky-cta .button { max-width: 100%; }
+}
+
+@media (max-width: 380px) {
+  .mobile-menu { padding-inline: 18px; }
+  .mobile-nav { margin-top: 28px; }
+  .mobile-nav-link { min-height: 52px; font-size: clamp(2rem, 10.5vw, 2.5rem); }
+  .lead-modal-content { padding-inline: 18px; }
+  .lead-modal-content h2 { font-size: clamp(2.15rem, 10vw, 2.7rem); }
+  .site-visit-badge { align-items: flex-start; border-radius: 14px; }
+}
+
+/* Compact OTP enquiry sheet: no forced page/modal scrolling on standard phones. */
+@media (max-width: 800px) {
+  .lead-modal-backdrop { align-items: flex-end; overflow: hidden; }
+  .lead-modal { max-height: 100dvh; overflow: hidden; border-radius: 24px 24px 0 0; }
+  .lead-modal-content { overflow: hidden; padding: 26px 20px max(20px, env(safe-area-inset-bottom)); }
+  .lead-modal-close { top: 10px; right: 12px; }
+  .lead-modal-content h2 { max-width: 12ch; margin-bottom: 8px; font-size: clamp(2.1rem, 9.5vw, 2.85rem); }
+  .lead-modal-description { margin-bottom: 10px; font-size: 13px; line-height: 1.4; }
+  .site-visit-badge { margin-bottom: 12px; }
+  .lead-form { gap: 9px; }
+  .lead-field label { margin-bottom: 4px; }
+  .lead-field input, .lead-field select, .phone-field { min-height: 44px; height: 44px; }
+  .phone-field input { height: 42px; }
+  .otp-action, .otp-code-row input { min-height: 44px; height: 44px; }
+  .otp-code-row { margin-top: 7px; }
+  .lead-submit { min-height: 46px; margin-top: 0; }
+  .lead-benefits { display: none; }
+  .last-name-field { display: none; }
+  .lead-privacy { font-size: 9px; }
+}
+
+@media (max-height: 680px) and (max-width: 800px) {
+  .lead-modal-content { padding-top: 20px; }
+  .lead-modal-description, .site-visit-badge { display: none; }
+  .lead-modal-content .section-label { margin-bottom: 7px; }
+  .lead-modal-content h2 { font-size: 2rem; }
+  .lead-form { gap: 7px; }
+  .lead-field input, .lead-field select, .phone-field, .otp-action, .otp-code-row input { min-height: 40px; height: 40px; }
+  .phone-field input { height: 38px; }
+  .lead-submit { min-height: 42px; }
+}
+
+/* Verified contact actions */
+.header-whatsapp, .mobile-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.header-whatsapp:hover, .header-whatsapp:focus-visible { color: #25d366; }
+.footer-contact { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 22px; }
+.footer-contact a { color: rgba(244,241,234,.7); font-size: 11px; letter-spacing: .08em; }
+.footer-contact a:hover, .footer-contact a:focus-visible { color: #fff; }
+.otp-phone-row, .otp-code-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: stretch; }
+.otp-action { min-height: 48px; padding: 0 12px; border: 1px solid #a34f45; border-radius: 9px; background: transparent; color: #8f4d46; cursor: pointer; font: inherit; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.otp-action:disabled { cursor: not-allowed; opacity: .6; }.otp-code-row { margin-top: 10px; }.otp-code-row input { min-width: 0; height: 48px; padding: 0 14px; border: 1px solid #d9d3c9; border-radius: 9px; background: #f7f4ef; font: inherit; letter-spacing: .12em; }.otp-success { margin: 7px 0 0; color: #31724a; font-size: 11px; }
+
+@media (max-width: 800px) {
+  .header-whatsapp { display: none; }
+  .mobile-sticky-cta { display: flex; align-items: center; gap: 8px; }
+  .mobile-whatsapp { min-height: 50px; border-color: #25d366; background: #25d366; color: #10100f; font-size: 9px; }
+  .mobile-sticky-cta .button { min-width: 0; }
+  .mobile-menu-footer a { overflow-wrap: anywhere; }
+  .otp-action { min-height: 50px; }
 }
