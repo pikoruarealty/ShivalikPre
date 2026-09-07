@@ -22,7 +22,6 @@ export function LeadCaptureModal({ open, source, variant, success, onClose, onSu
     document.body.classList.add("modal-is-open");
     const focusable = () => Array.from(dialog.current?.querySelectorAll<HTMLElement>('button:not([disabled]), input, select, [tabindex]:not([tabindex="-1"])') ?? []);
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") { requestClose(); return; }
       if (event.key === "Tab") { const items = focusable(); if (!items.length) return; const first = items[0]; const last = items[items.length - 1]; if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); } }
     };
     window.addEventListener("keydown", onKeyDown);
@@ -34,8 +33,13 @@ export function LeadCaptureModal({ open, source, variant, success, onClose, onSu
     };
   }, [open, requestClose]);
   useEffect(() => () => { if (closeTimer.current) window.clearTimeout(closeTimer.current); }, []);
+  useEffect(() => {
+    if (!open || !success) return;
+    const timer = window.setTimeout(requestClose, 2600);
+    return () => window.clearTimeout(timer);
+  }, [open, requestClose, success]);
   if (!open) return null;
-  return <div className={`lead-modal-backdrop ${closing ? "is-closing" : ""}`} onMouseDown={(event) => { if (event.target === event.currentTarget) requestClose(); }}><div className="lead-modal" ref={dialog} role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
-    <div className="lead-modal-visual" aria-hidden="true"><span>Shivalik<br /><em>Présenté</em></span></div><div className="lead-modal-content"><button className="lead-modal-close" type="button" onClick={requestClose} aria-label="Close enquiry form">×</button>{success ? <div className="lead-success" role="status" aria-live="polite"><p className="section-label">Private Presentation</p><h2 id="lead-modal-title">Thank you.</h2><p>Our advisory team will connect with you regarding Shivalik Présenté.</p><p className="secondary-copy">Your request has been recorded.</p><button type="button" className="button button-text" onClick={requestClose}>Return to the site</button></div> : <><p className="section-label">Private Residence Enquiry</p><h2 id="lead-modal-title">Request Priority Access</h2><p className="lead-modal-description">Share your requirements and receive project details from our advisory team.</p><p className="site-visit-badge"><i />Site visits — by appointment only</p><LeadForm source={source} variant={variant} onSuccess={onSuccess} /><p className="lead-benefits">Private callback <i /> Floor plan guidance <i /> Priority visit</p></>}</div>
+  return <div className={`lead-modal-backdrop ${closing ? "is-closing" : ""}`}><div className="lead-modal" ref={dialog} role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+    <div className="lead-modal-visual" aria-hidden="true"><span>Shivalik<br /><em>Présenté</em></span></div><div className="lead-modal-content">{success ? <div className="lead-success" role="status" aria-live="polite"><p className="section-label">Private Presentation</p><h2 id="lead-modal-title">Thank you.</h2><p>Our advisory team will connect with you regarding Shivalik Présenté.</p><p className="secondary-copy">Your request has been recorded.</p><p className="lead-auto-close">This window will close automatically.</p></div> : <><p className="section-label">Private Residence Enquiry</p><h2 id="lead-modal-title">Request Priority Access</h2><p className="lead-modal-description">Share your requirements and receive project details from our advisory team.</p><p className="site-visit-badge"><i />Site visits — by appointment only</p><LeadForm source={source} variant={variant} onSuccess={onSuccess} /><p className="lead-benefits">Private callback <i /> Floor plan guidance <i /> Priority visit</p></>}</div>
   </div></div>;
 }

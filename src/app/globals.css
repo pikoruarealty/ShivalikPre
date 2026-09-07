@@ -856,6 +856,8 @@ main { overflow: clip; }
 .lead-form .phone-lead-field { grid-column: 1 / -1; }
 .otp-action { min-height: 48px; padding: 0 12px; border: 1px solid #a34f45; border-radius: 9px; background: transparent; color: #8f4d46; cursor: pointer; font: inherit; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .otp-action:disabled { cursor: not-allowed; opacity: .6; }.otp-code-row { margin-top: 10px; }.otp-code-row input { min-width: 0; height: 48px; padding: 0 14px; border: 1px solid #d9d3c9; border-radius: 9px; background: #f7f4ef; font: inherit; letter-spacing: .12em; }.otp-success { margin: 7px 0 0; color: #31724a; font-size: 11px; }
+.otp-auto-status { align-self: center; color: #766b60; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-align: right; text-transform: uppercase; }
+.lead-auto-close { color: #766b60; font-size: 13px; }
 
 @media (max-width: 800px) {
   .header-whatsapp { display: none; }

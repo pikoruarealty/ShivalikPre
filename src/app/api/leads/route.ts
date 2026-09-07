@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     if (
       name.length < 2 ||
       !/^(?:\+?\d{1,3})?\d{10}$/.test(phone) ||
-      (mail && !email.test(mail)) ||
+      !email.test(mail) ||
       !source ||
       !variants.has(variant)
     ) return fail(400);
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     const leadInput = {
       name,
       phone,
-      email: mail || undefined,
+      email: mail,
       requirement: text(values.requirement, 80) || undefined,
       source,
       variant,
