@@ -1,3 +1,6 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { Container } from "@/components/layout/container";
+import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
+export const metadata: Metadata = createPageMetadata({ title: "Disclaimer", description: "Important project information and buyer guidance for Shivalik Présenté.", path: "/disclaimer" });
 export default function DisclaimerPage() { return <><SiteHeader /><main className="seo-page"><Container className="seo-wrap"><header className="seo-hero"><p className="section-label">Disclaimer</p><h1>Project information, presented with care.</h1><p>This website is provided for general project information and marketing purposes.</p></header><div className="seo-content"><section><h2>Project information</h2><p>Visuals may be representational. Areas, features and other project information should be independently verified against official documents and current project communications.</p></section><section><h2>Decisions and availability</h2><p>Availability, pricing and specifications may change. Nothing on this website constitutes a guaranteed investment return or a substitute for independent due diligence.</p></section></div></Container></main></>; }

@@ -853,6 +853,7 @@ main { overflow: clip; }
 .footer-contact a { color: rgba(244,241,234,.7); font-size: 11px; letter-spacing: .08em; }
 .footer-contact a:hover, .footer-contact a:focus-visible { color: #fff; }
 .otp-phone-row, .otp-code-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: stretch; }
+.lead-form .phone-lead-field { grid-column: 1 / -1; }
 .otp-action { min-height: 48px; padding: 0 12px; border: 1px solid #a34f45; border-radius: 9px; background: transparent; color: #8f4d46; cursor: pointer; font: inherit; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .otp-action:disabled { cursor: not-allowed; opacity: .6; }.otp-code-row { margin-top: 10px; }.otp-code-row input { min-width: 0; height: 48px; padding: 0 14px; border: 1px solid #d9d3c9; border-radius: 9px; background: #f7f4ef; font: inherit; letter-spacing: .12em; }.otp-success { margin: 7px 0 0; color: #31724a; font-size: 11px; }
 
