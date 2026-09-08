@@ -32,7 +32,7 @@ export function Hero() {
 
   return (
     <section ref={heroRef} className="hero" aria-labelledby="hero-title">
-      <ImageFrame src="/images/presente/interiors/riverfront-balcony.jpeg" className="hero-visual" aria-label="Riverfront balcony at Shivalik Présenté" />
+      <ImageFrame src="/images/presente/interiors/riverfront-balcony.jpeg" className="hero-visual" aria-label="Riverfront balcony at Shivalik Présenté" priority sizes="100vw" />
       <div className="hero-shade" aria-hidden="true" />
       <div className="hero-grain" aria-hidden="true" />
       <div className="hero-inner container">

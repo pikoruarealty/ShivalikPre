@@ -27,6 +27,12 @@ import { VistaDeckSection } from "@/components/sections/vista-deck-section";
 import { VolumeSection } from "@/components/sections/volume-section";
 import { WellnessSection } from "@/components/sections/wellness-section";
 import { websiteSchema } from "@/lib/seo";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Shivalik Présenté GIFT City | Riverfront Residences",
+  description: "Explore 54 private riverfront residences at Shivalik Présenté in GIFT City: spacious 4 BHK homes and a limited collection of 6 BHK duplex penthouses.",
+});
 
 export default function HomePage() {
   return <><SiteHeader /><main><JsonLd data={websiteSchema()} /><Hero /><Reveal variant="text"><ProjectIntroduction /></Reveal><Reveal variant="list"><ProjectNumbers /></Reveal><Reveal variant="list"><PrivacySection /></Reveal><Reveal variant="image"><RiverfrontSection /></Reveal><Reveal variant="list"><TowersSection /></Reveal><Reveal variant="image"><VistaDeckSection /></Reveal><Reveal variant="text"><ResidencesIntro /></Reveal><Reveal variant="image"><FourBhkSection /></Reveal><Reveal variant="image"><PenthouseSection /></Reveal><Reveal variant="line"><VolumeSection /></Reveal><Reveal variant="list"><InteriorLifeSection /></Reveal><Reveal variant="text"><AmenitiesIntro /></Reveal><Reveal variant="image"><WellnessSection /></Reveal><Reveal variant="list"><LeisureSection /></Reveal><Reveal variant="list"><SocialSection /></Reveal><Reveal variant="list"><OpenSpacesSection /></Reveal><Reveal variant="image"><AmenitiesGallery /></Reveal><Reveal variant="image"><GiftCitySection /></Reveal><Reveal variant="list"><ConnectivitySection /></Reveal><Reveal variant="list"><LocationAdvantageSection /></Reveal><Reveal variant="text"><InvestmentSection /></Reveal><Reveal variant="list"><BlogPreview /></Reveal><Reveal variant="line"><LocationMapSection /></Reveal><Reveal variant="text"><LocationCtaSection /></Reveal></main></>;

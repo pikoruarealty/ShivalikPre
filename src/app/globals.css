@@ -57,6 +57,9 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
 .button-text:hover { color: var(--accent); transform: translateX(3px); }
 .button-text:hover::after { display: inline-block; transform: translate(3px, -3px); }
 .image-frame { position: relative; overflow: hidden; background: linear-gradient(125deg, #33322d, #777265 46%, #b4a99a); }
+.image-frame > img { z-index: 0; object-fit: cover; object-position: center; }
+.image-frame::before, .image-frame::after { z-index: 1; pointer-events: none; }
+.riverfront-visual > img { object-position: center 58%; }
 .image-frame::after { position: absolute; inset: 14%; border: 1px solid rgba(244,241,234,.28); content: ""; }
 .hero-visual { position: absolute; inset: 0; z-index: -2; min-height: 100%; border-radius: 0; background: linear-gradient(145deg, #282824, #5f5a4f 48%, #a59a88); animation: visual-in 1400ms cubic-bezier(.2,.75,.25,1) both; }
 .hero-visual::before { position: absolute; width: 68%; height: 120%; right: -8%; bottom: -27%; background: rgba(219,211,193,.22); content: ""; transform: rotate(19deg); }
