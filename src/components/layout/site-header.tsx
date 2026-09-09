@@ -45,7 +45,13 @@ export function SiteHeader() {
       <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
       <Container className="header-inner">
         <Link className="wordmark" href="/" aria-label="Shivalik Présenté home">
-          <Image src="/images/presente/brand/presente-logo.svg" alt="Présenté" width={400} height={83} priority />
+          <Image
+            src="/images/presente/brand/presented-wordmark.png"
+            alt="Presented"
+            width={900}
+            height={300}
+            priority
+          />
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">
           {navigation.map((item) => (

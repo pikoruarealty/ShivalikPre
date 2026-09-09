@@ -502,7 +502,7 @@ body { font-size: 17px; letter-spacing: -.012em; }
 .location-cta-copy { max-width: 360px; }
 .location-cta-actions { gap: 25px; }
 .site-footer { padding: clamp(80px, 10vw, 145px) 0 50px; background: var(--dark); }
-.site-footer .wordmark { font-size: 10px; }.site-footer .wordmark strong { font-size: clamp(3.8rem, 7vw, 7.5rem); letter-spacing: -.08em; }
+.footer-brand-logo { display: block; width: clamp(220px, 30vw, 430px); height: auto; filter: brightness(0) invert(1); }
 .footer-location { letter-spacing: .16em; text-transform: uppercase; }
 @media (max-width: 800px) {
   .site-header { height: 76px; }.site-header.is-scrolled { height: 72px; }.wordmark strong { font-size: 16px; }

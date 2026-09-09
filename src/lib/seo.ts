@@ -66,7 +66,7 @@ export function websiteSchema() {
         "@id": organizationId,
         name: "Shivalik Présenté",
         url: absolute("/"),
-        logo: { "@type": "ImageObject", url: absolute("/images/presente/brand/presente-logo.svg") },
+        logo: { "@type": "ImageObject", url: absolute("/images/presente/brand/presented-mark-512.png"), width: 512, height: 512 },
         sameAs: ["https://shivalikgroup.com/projects/presente"],
       },
       {
