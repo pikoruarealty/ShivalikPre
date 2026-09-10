@@ -38,7 +38,8 @@ export const serverConfig = {
   brevoApiKey: optional(process.env.BREVO_API_KEY),
   brevoSenderEmail: optional(process.env.BREVO_SENDER_EMAIL),
   brevoSenderName: optional(process.env.BREVO_SENDER_NAME) ?? "Shivalik Présenté Website",
-  leadAdminEmail: optional(process.env.LEAD_ADMIN_EMAIL),
+  leadAdminEmail:
+    optional(process.env.LEAD_ADMIN_EMAIL) ?? "luxuryrealestateahmedabad@gmail.com",
   twoFactorApiKey: optional(process.env.TWO_FACTOR_API_KEY),
   otpSessionSecret: optional(process.env.OTP_SESSION_SECRET),
 } as const;
