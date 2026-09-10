@@ -9,7 +9,7 @@ export function ProjectIntroduction() {
       <Container className="presence-grid">
         <div className="section-marker">01 <span>/</span> Beyond the Residence</div>
         <figure className="presence-figure"><ImageFrame src="/images/presente/interiors/private-lift-foyer.png" className="presence-visual" aria-label="Private lift foyer at Shivalik Présenté" /><figcaption>Private arrival, composed with care.</figcaption></figure>
-        <div className="presence-copy"><SectionLabel>Beyond the Residence</SectionLabel><h2 id="presence-title" className="section-heading">Where refinement<br /><em>becomes a way of life.</em></h2><p>{project.editorial.introduction}</p><p className="secondary-copy">A residential experience created for those who value space, discretion and architectural clarity.</p></div>
+        <div className="presence-copy"><SectionLabel>Beyond the Residence</SectionLabel><h2 id="presence-title" className="section-heading">Luxury homes in GIFT City,<br /><em>shaped around privacy.</em></h2><p>{project.editorial.introduction}</p><p className="secondary-copy">Premium 4 BHK residences and a limited 6 BHK penthouse collection created for those who value space, discretion and architectural clarity.</p></div>
       </Container>
     </section>
   );

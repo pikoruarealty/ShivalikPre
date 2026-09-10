@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { insights, seoPages } from "@/data/seo";
 import { siteUrl } from "@/lib/seo";
-const contentUpdated = "2026-09-08";
+const contentUpdated = "2026-09-10";
 export default function sitemap(): MetadataRoute.Sitemap {
   const image = `${siteUrl}/images/presente/exterior/presente-exterior-wide.jpeg`;
   return [

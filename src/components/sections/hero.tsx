@@ -39,10 +39,10 @@ export function Hero() {
         <div className="hero-copy">
           <SectionLabel>{project.displayName}</SectionLabel>
           <h1 id="hero-title" className="display-heading">
-            <span className="hero-line"><span>A Gift</span></span>
-            <span className="hero-line"><span>of <em>True</em> Refinement.</span></span>
+            <span className="hero-line"><span>Ultra-Luxury</span></span>
+            <span className="hero-line"><span><em>Riverfront</em> Residences.</span></span>
           </h1>
-          <p className="hero-description">A boutique collection of {project.residenceCounts.total} ultra-luxury riverfront residences in GIFT City.</p>
+          <p className="hero-description">A boutique collection of {project.residenceCounts.total} luxury apartments and riverfront homes in GIFT City, Gandhinagar.</p>
           <div className="hero-actions"><Button href="#introduction">{project.cta.primary}</Button><LeadButton source="hero-private-presentation" variant="private-presentation" buttonVariant="text">{project.cta.enquiry}</LeadButton></div>
         </div>
         <div className="hero-location"><span>GIFT City</span><span aria-hidden="true">·</span><span>Gandhinagar</span></div>
