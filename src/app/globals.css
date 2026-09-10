@@ -539,7 +539,8 @@ main { overflow: clip; }
 /* Step 2 — cinematic motion */
 :root { --cinema-ease: cubic-bezier(.22, 1, .36, 1); }
 .hero { --hero-scroll: 0; }
-.hero-visual { animation: hero-visual-enter 1400ms var(--cinema-ease) both; transform: translateY(calc(var(--hero-scroll, 0) * 4vh)) scale(calc(1 + (var(--hero-scroll, 0) * .015))); will-change: transform; }
+.hero-visual { animation: hero-visual-fade 1400ms var(--cinema-ease) both; transform: translateY(calc(var(--hero-scroll, 0) * 4vh)) scale(calc(1 + (var(--hero-scroll, 0) * .015))); will-change: transform; }
+.hero-visual > img { animation: hero-image-enter 1400ms var(--cinema-ease) both; will-change: transform; }
 .hero-shade { animation: hero-shade-enter 1400ms var(--cinema-ease) both; }
 .hero-copy { transform: translateY(calc(var(--hero-scroll, 0) * -30px)); opacity: calc(1 - (var(--hero-scroll, 0) * .55)); will-change: transform, opacity; }
 .hero-copy .section-label { animation: hero-copy-enter 700ms 180ms var(--cinema-ease) both; }
@@ -594,7 +595,8 @@ main { overflow: clip; }
 .feature-list li:hover strong { transform: translateX(5px); }.feature-list li:hover b { transform: translateX(4px); }
 .towers-section .tower-item { transition: opacity 550ms ease, color 550ms ease, padding 450ms ease, transform 800ms var(--cinema-ease); }
 
-@keyframes hero-visual-enter { from { opacity: .65; transform: scale(1.06); } to { opacity: 1; transform: translateY(calc(var(--hero-scroll, 0) * 4vh)) scale(calc(1 + (var(--hero-scroll, 0) * .015))); } }
+@keyframes hero-visual-fade { from { opacity: .65; } to { opacity: 1; } }
+@keyframes hero-image-enter { from { transform: scale(1.06); } to { transform: scale(1); } }
 @keyframes hero-shade-enter { from { opacity: 1; } to { opacity: .78; } }
 @keyframes hero-copy-enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes hero-line-enter { to { opacity: 1; transform: translateY(0); } }
@@ -739,7 +741,7 @@ main { overflow: clip; }
 .wordmark { width: clamp(126px, 10vw, 174px); }.wordmark img { display: block; width: 100%; height: auto; filter: brightness(0) invert(1); }.site-header.is-scrolled .wordmark img { filter: none; }
 .penthouse-section { background: var(--dark); color: var(--dark-foreground); }.penthouse-section .section-label, .penthouse-section .size-display { color: #c6a99a; }.penthouse-section .configuration-copy > p, .penthouse-section figcaption { color: rgba(247,245,240,.68); }.penthouse-section .button-text { color: var(--dark-foreground); }
 .lead-modal-backdrop { padding: 30px; background: rgba(0,0,0,.45); backdrop-filter: blur(4px); }
-.lead-modal { grid-template-columns: minmax(240px,.75fr) 1.25fr; width: min(94vw, 960px); max-height: 88svh; border: 1px solid rgba(221,215,205,.9); border-radius: 18px; box-shadow: 0 32px 80px rgba(0,0,0,.23); }
+.lead-modal { position: relative; grid-template-columns: minmax(240px,.75fr) 1.25fr; width: min(94vw, 960px); max-height: 88svh; border: 1px solid rgba(221,215,205,.9); border-radius: 18px; box-shadow: 0 32px 80px rgba(0,0,0,.23); }
 .lead-modal-visual { min-height: 100%; background: linear-gradient(145deg, #24211f, #50463e 55%, #8b7564); }.lead-modal-content { overflow: auto; padding: clamp(38px, 4vw, 58px); background: #faf8f3; }
 .lead-modal-content h2 { font-family: var(--font-sans), Arial, sans-serif; font-size: clamp(2.3rem, 4vw, 4rem); font-weight: 500; letter-spacing: -.065em; line-height: .95; }.lead-modal-content .section-label { margin-bottom: 17px; color: #a34f45; }
 .lead-modal-description { max-width: 490px; margin-bottom: 19px; font-size: 15px; line-height: 1.5; }.site-visit-badge { display: flex; align-items: center; gap: 9px; width: max-content; max-width: 100%; margin: 0 0 27px; padding: 8px 13px; border: 1px solid #a34f45; border-radius: 999px; color: #8f4d46; font-size: 10px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }.site-visit-badge i { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; background: #a34f45; }
@@ -808,7 +810,7 @@ main { overflow: clip; }
 @media (max-width: 800px) {
   .lead-modal-backdrop { align-items: flex-end; overflow: hidden; }
   .lead-modal { max-height: 100dvh; overflow: hidden; border-radius: 24px 24px 0 0; }
-  .lead-modal-content { overflow: hidden; padding: 26px 20px max(20px, env(safe-area-inset-bottom)); }
+  .lead-modal-content { max-height: 100dvh; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; padding: 26px 20px max(20px, env(safe-area-inset-bottom)); -webkit-overflow-scrolling: touch; }
   .lead-modal-close { top: 10px; right: 12px; }
   .lead-modal-content h2 { max-width: 12ch; margin-bottom: 8px; font-size: clamp(2.1rem, 9.5vw, 2.85rem); }
   .lead-modal-description { margin-bottom: 10px; font-size: 13px; line-height: 1.4; }
@@ -861,6 +863,9 @@ main { overflow: clip; }
 .otp-action:disabled { cursor: not-allowed; opacity: .6; }.otp-code-row { margin-top: 10px; }.otp-code-row input { min-width: 0; height: 48px; padding: 0 14px; border: 1px solid #d9d3c9; border-radius: 9px; background: #f7f4ef; font: inherit; letter-spacing: .12em; }.otp-success { margin: 7px 0 0; color: #31724a; font-size: 11px; }
 .otp-auto-status { align-self: center; color: #766b60; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-align: right; text-transform: uppercase; }
 .lead-auto-close { color: #766b60; font-size: 13px; }
+.otp-delivery-note { margin: 7px 0 0; color: #766b60; font-size: 10px; line-height: 1.4; }
+.lead-form .lead-whatsapp-fallback { grid-column: 1 / -1; min-height: 48px; border-color: #1f8f4d; background: #1f8f4d; color: #fff; font-size: 10px; text-align: center; }
+.lead-form .lead-whatsapp-fallback:hover, .lead-form .lead-whatsapp-fallback:focus-visible { border-color: #18733e; background: #18733e; color: #fff; }
 
 @media (max-width: 800px) {
   .header-whatsapp { display: none; }
@@ -869,4 +874,126 @@ main { overflow: clip; }
   .mobile-sticky-cta .button { min-width: 0; }
   .mobile-menu-footer a { overflow-wrap: anywhere; }
   .otp-action { min-height: 50px; }
+}
+
+/* Final enquiry-dialog layout: laptop-safe, keyboard-safe and consistently scrollable. */
+.lead-modal-backdrop {
+  padding: clamp(18px, 3vw, 32px);
+  overflow: hidden;
+}
+.lead-modal {
+  width: min(960px, calc(100vw - 48px));
+  max-height: calc(100svh - 48px);
+  max-height: calc(100dvh - 48px);
+  overflow: hidden;
+}
+.lead-modal-visual {
+  min-height: 0;
+}
+.lead-modal-content {
+  max-height: calc(100svh - 48px);
+  max-height: calc(100dvh - 48px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.lead-modal-close {
+  position: absolute;
+  z-index: 4;
+}
+
+@media (min-width: 801px) and (max-width: 1100px) {
+  .lead-modal {
+    grid-template-columns: minmax(210px, .68fr) 1.32fr;
+  }
+  .lead-modal-content {
+    padding: 30px 34px 28px;
+  }
+  .lead-modal-content h2 {
+    font-size: clamp(2.35rem, 5vw, 3.2rem);
+  }
+}
+
+@media (max-width: 800px) {
+  .lead-modal-backdrop {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0;
+  }
+  .lead-modal {
+    width: min(100%, 640px);
+    max-height: 94svh;
+    max-height: 94dvh;
+    border-radius: 24px 24px 0 0;
+  }
+  .lead-modal-content {
+    width: 100%;
+    max-height: 94svh;
+    max-height: 94dvh;
+    padding: 28px 20px max(22px, env(safe-area-inset-bottom));
+  }
+  .lead-modal-content .section-label {
+    padding-right: 48px;
+  }
+  .lead-modal-content h2 {
+    padding-right: 42px;
+    font-size: clamp(2.05rem, 9.5vw, 2.85rem);
+  }
+  .lead-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lead-field,
+  .otp-phone-row,
+  .otp-code-row {
+    min-width: 0;
+  }
+  .otp-phone-row,
+  .otp-code-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .lead-field input,
+  .lead-field select,
+  .otp-code-row input {
+    font-size: 16px;
+  }
+  .lead-submit {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .lead-modal-content {
+    padding-inline: 16px;
+  }
+  .lead-modal-content h2 {
+    font-size: clamp(1.9rem, 10vw, 2.35rem);
+  }
+  .otp-action {
+    padding-inline: 9px;
+    font-size: 9px;
+  }
+  .otp-code-row {
+    grid-template-columns: 1fr;
+  }
+  .otp-auto-status {
+    text-align: left;
+  }
+}
+
+@media (max-width: 800px) and (max-height: 680px) {
+  .lead-modal {
+    max-height: 100svh;
+    max-height: 100dvh;
+  }
+  .lead-modal-content {
+    max-height: 100svh;
+    max-height: 100dvh;
+    padding-top: 20px;
+  }
+  .lead-modal-description,
+  .site-visit-badge {
+    display: none;
+  }
 }

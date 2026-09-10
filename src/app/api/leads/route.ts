@@ -22,7 +22,9 @@ export async function POST(request: NextRequest) {
     if (size > 8_000) return fail(413);
     const origin = request.headers.get("origin");
     if (origin && origin !== request.nextUrl.origin) return fail(403);
-    if (!isBrevoConfigured()) {
+    const canSaveLead = isSupabaseConfigured();
+    const canEmailLead = isBrevoConfigured();
+    if (!canSaveLead && !canEmailLead) {
       return NextResponse.json(
         { ok: false, configured: false, error: "We couldn’t submit your request right now. Please try again." },
         { status: 503 },
@@ -63,10 +65,21 @@ export async function POST(request: NextRequest) {
       utm_content: text(values.utm_content, 120) || undefined,
       utm_term: text(values.utm_term, 120) || undefined,
     };
-    const lead: StoredLead = isSupabaseConfigured()
-      ? await saveLead(leadInput)
-      : { id: crypto.randomUUID(), ...leadInput, created_at: new Date().toISOString() };
-    await sendLeadNotification(lead);
+    const lead: StoredLead = { id: crypto.randomUUID(), ...leadInput, created_at: new Date().toISOString() };
+    const deliveries: Array<{ channel: "database" | "email"; request: Promise<unknown> }> = [];
+    if (canSaveLead) deliveries.push({ channel: "database", request: saveLead(leadInput) });
+    if (canEmailLead) deliveries.push({ channel: "email", request: sendLeadNotification(lead) });
+
+    // A lead is accepted when at least one configured destination receives it.
+    // This prevents an email outage from rejecting a lead already stored in the
+    // database (and prevents the visitor from creating duplicates by retrying).
+    const results = await Promise.allSettled(deliveries.map(({ request }) => request));
+    results.forEach((result, index) => {
+      if (result.status === "rejected") {
+        console.error(`Lead ${deliveries[index].channel} delivery failed`, result.reason);
+      }
+    });
+    if (!results.some((result) => result.status === "fulfilled")) return fail(502);
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Lead delivery failed", error);
