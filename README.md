@@ -1,46 +1,221 @@
-# Shivalik Présenté
+<div align="center">
+  <img src="public/images/brand/shivalik-logo-favicon-source.png" alt="Shivalik logo" width="360" />
 
-Next.js website for Shivalik Présenté in GIFT City.
+  # Shivalik Présenté
 
-## Setup
+  <a href="https://www.shivalikpresente.com/">
+    <img src="https://img.shields.io/badge/LIVE%20WEBSITE-OPEN%20NOW-171715?style=for-the-badge&logo=vercel&logoColor=white" alt="Open the live Shivalik Présenté website" />
+  </a>
 
-Requires Node.js 22+.
+  **[www.shivalikpresente.com](https://www.shivalikpresente.com/)**
+
+  <img src="https://readme-typing-svg.demolab.com?font=DM+Sans&weight=500&size=20&duration=2800&pause=900&color=8F4D46&center=true&vCenter=true&width=720&lines=Riverfront+residences+in+GIFT+City;4+BHK+luxury+apartments+in+Gandhinagar;Built+with+Next.js%2C+Supabase%2C+Brevo+and+2Factor" alt="Animated project summary" />
+
+  ![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+  ![React](https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+  ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+  ![Vercel](https://img.shields.io/badge/Deployed_on_Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+</div>
+
+## Overview
+
+Shivalik Présenté is a production Next.js website for a collection of riverfront residences in GIFT City, Gandhinagar. The site includes the main project experience, SEO landing pages, editorial guides, enquiry capture, Indian mobile OTP verification, lead storage and transactional email delivery.
+
+## Features
+
+- Responsive project website with image-led sections and enquiry journeys
+- Dedicated SEO pages for Shivalik Présenté, GIFT City and 4 BHK luxury apartment searches
+- Server-rendered metadata, canonical URLs, Open Graph data and JSON-LD
+- Dynamic `robots.txt`, XML sitemap and crawlable internal navigation
+- FAQ content rendered visibly and included in structured data where appropriate
+- Mobile OTP verification before a lead can be submitted
+- Supabase lead storage with Row Level Security
+- Brevo notifications for the sales team and enquiry confirmation for the visitor
+- UTM attribution, referrer and source capture
+- Optional GA4, Google Tag Manager and Meta Pixel integrations
+- Automated favicon generation and a 42-URL SEO audit script
+
+## Technology and services
+
+| Service | Purpose | Used from |
+| --- | --- | --- |
+| Next.js 16 + React 19 | App Router website, static pages and server API routes | Entire application |
+| TypeScript | Type-safe application code | `src/` |
+| Tailwind CSS 4 + PostCSS | Styling toolchain | Global styles/build |
+| Vercel | Hosting, deployments and server functions | Production |
+| Supabase REST API | Stores verified enquiries in `public.leads` | `POST /api/leads` |
+| Brevo Transactional Email API | Sends sales notifications and visitor confirmations | `POST /api/leads` |
+| 2Factor OTP API | Sends and verifies Indian mobile OTP codes | `/api/otp/*` |
+| Google Search Console | Domain verification and indexing monitoring | Metadata/environment |
+| GA4 / GTM / Meta Pixel | Optional consent-aware analytics and marketing tracking | Client analytics |
+
+No database or provider secret is sent to the browser. Supabase, Brevo, 2Factor and the OTP signing secret are read only inside server routes.
+
+## Application flow
+
+```mermaid
+flowchart LR
+  V[Visitor] --> W[Next.js website]
+  W --> R[Request OTP API]
+  R --> T[2Factor SMS]
+  T --> O[Verify OTP API]
+  O --> L[Lead API]
+  L --> S[(Supabase leads)]
+  L --> B[Brevo email]
+  B --> A[Sales inbox]
+  B --> C[Visitor confirmation]
+```
+
+## API routes
+
+| Method and route | Purpose | Main protection |
+| --- | --- | --- |
+| `POST /api/otp/request` | Validates a 10-digit Indian mobile number and requests an OTP from 2Factor | Provider timeout, input validation and signed HttpOnly pending cookie |
+| `POST /api/otp/verify` | Verifies the OTP and creates a short-lived verified session | Signed HttpOnly cookies, matching phone/session and 10-minute expiry |
+| `POST /api/leads` | Validates and delivers an enquiry to configured destinations | Same-origin check, payload limit, honeypot, field validation and verified OTP |
+
+The lead route attempts every configured delivery destination. A submission succeeds when at least one active destination receives the lead, preventing an email outage from discarding a lead already stored in Supabase.
+
+## Vercel environment variables
+
+Add these in **Vercel → Project → Settings → Environment Variables**. Use **Production** for the live website and add them to **Preview** only when preview deployments also need working forms. Redeploy after adding or changing a variable.
+
+### Public website configuration
+
+| Variable | Required | Production value/purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Yes | `https://www.shivalikpresente.com` — canonical domain used by metadata, sitemap and structured data |
+| `NEXT_PUBLIC_PHONE` | Recommended | Public click-to-call number, including country code |
+| `NEXT_PUBLIC_WHATSAPP` | Recommended | WhatsApp number in digits-only international format |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Recommended | Public contact email shown by the website |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | For Search Console | Google verification token only, not the complete HTML tag |
+| `NEXT_PUBLIC_GA4_ID` | Optional | Google Analytics measurement ID such as `G-XXXXXXXXXX` |
+| `NEXT_PUBLIC_GTM_ID` | Optional | Google Tag Manager container ID such as `GTM-XXXXXXX` |
+| `NEXT_PUBLIC_META_PIXEL_ID` | Optional | Meta Pixel ID |
+
+Variables prefixed with `NEXT_PUBLIC_` are included in browser-delivered code. Never place private keys in them.
+
+### Server-only lead delivery
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `SUPABASE_URL` | Required for database storage | Supabase project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Required for database storage | Server-only service-role key used to insert leads |
+| `BREVO_API_KEY` | Required for email delivery | Brevo transactional email API key |
+| `BREVO_SENDER_EMAIL` | Required for email delivery | Sender address verified inside Brevo |
+| `BREVO_SENDER_NAME` | Recommended | Display name used for outgoing email |
+| `LEAD_ADMIN_EMAIL` | Required for notifications | Sales inbox that receives new enquiries |
+
+At least Supabase or Brevo must be configured for lead delivery, although production should use both for redundancy. Apply [`supabase/migrations/20260907000000_create_leads.sql`](supabase/migrations/20260907000000_create_leads.sql) before enabling Supabase storage. The migration enables Row Level Security and intentionally exposes no public insert policy because writes use the server-only service role.
+
+### Server-only OTP verification
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `TWO_FACTOR_API_KEY` | Yes | API key from 2Factor for SMS OTP requests and verification |
+| `OTP_SESSION_SECRET` | Yes | High-entropy secret used to sign pending and verified OTP cookies |
+
+Generate `OTP_SESSION_SECRET` locally and save the generated value directly in Vercel:
 
 ```bash
+openssl rand -base64 48
+```
+
+Do not commit this value. The repository ignores `.env.local` and all `.env*` files except `.env.example`.
+
+## Local development
+
+Requires Node.js 22 and npm.
+
+```bash
+git clone https://github.com/pikoruarealty/ShivalikPre.git
+cd ShivalikPre
 npm install
 cp .env.example .env.local
 npm run dev
 ```
 
-Run `npm run typecheck`, `npm run lint`, and `npm run build` before deployment.
+Open [http://localhost:3000](http://localhost:3000). Populate `.env.local` with your own development credentials; never copy production secrets into source-controlled files.
 
-## Vercel deployment
+## Commands
 
-1. Import `BAPUx03/ShivalikPre` into Vercel. The framework is detected automatically as Next.js; use the repository root as the Root Directory and keep the default `npm run build` command.
-2. The project is pinned to Node.js 22 through `package.json`. No custom output directory or static export setting is required.
-3. In **Project Settings → Environment Variables**, add the values from `.env.example` for the environments you need. Set `NEXT_PUBLIC_SITE_URL` to the final `https://` production domain.
-4. Add the Supabase and Brevo variables from `.env.example` to Production and Preview. These are server-only secrets—never prefix them with `NEXT_PUBLIC_` and never commit their values.
-5. Redeploy after editing environment variables. The enquiry endpoint intentionally returns a safe error until every lead-delivery variable is configured.
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Starts the Turbopack development server |
+| `npm run build` | Creates the production build |
+| `npm run start` | Serves the completed production build |
+| `npm run lint` | Runs ESLint |
+| `npm run typecheck` | Runs TypeScript checks without emitting files |
+| `npm run icons:generate` | Rebuilds favicon and app-icon assets from the Shivalik logo source |
+| `npm run seo:audit -- https://www.shivalikpresente.com` | Audits robots, sitemap, status, canonicals, metadata, H1s, JSON-LD and internal links |
 
-## Configuration
+## Project structure
 
-Set `NEXT_PUBLIC_SITE_URL` to the verified production URL. Contact actions remain hidden until the verified phone, WhatsApp, and email variables are supplied.
+```text
+ShivalikPre/
+├── public/
+│   ├── images/                    # Project, Open Graph and brand assets
+│   ├── favicon.ico
+│   ├── apple-touch-icon.png
+│   └── favicon-512.png
+├── scripts/
+│   ├── audit-seo.mjs             # Production/local crawl audit
+│   └── generate-icons.mjs        # Favicon generation
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── leads/            # Lead delivery endpoint
+│   │   │   └── otp/              # OTP request and verification
+│   │   ├── insights/             # Editorial guides
+│   │   ├── layout.tsx             # Global metadata and layout
+│   │   ├── robots.ts
+│   │   └── sitemap.ts
+│   ├── components/
+│   │   ├── forms/                # Lead and OTP interface
+│   │   ├── layout/               # Header, footer and navigation
+│   │   ├── sections/             # Homepage sections
+│   │   └── seo/                  # SEO page UI and internal links
+│   ├── data/                     # SEO pages, FAQs and insight content
+│   └── lib/                      # Config, analytics, OTP, leads and schemas
+├── supabase/migrations/           # Database schema
+├── .env.example                   # Safe environment variable template
+├── next.config.ts
+└── package.json
+```
 
-## Lead delivery: Supabase + Brevo
+## Deployment checklist
 
-1. Create a Supabase project, then run [the leads migration](supabase/migrations/20260907000000_create_leads.sql) in its SQL Editor (or apply it with the Supabase CLI). It creates `public.leads`, enables Row Level Security, and intentionally creates no public policies.
-2. Copy the project URL and **service role** key into `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`. The service role key is used only by the server-side API route; never expose it to the browser.
-3. In Brevo, verify the sender address you want to use, create an API key with transactional-email access, then set `BREVO_API_KEY`, `BREVO_SENDER_EMAIL`, and optionally `BREVO_SENDER_NAME`.
-4. Set `LEAD_ADMIN_EMAIL` to the inbox that should receive each new lead notification.
+1. Import `pikoruarealty/ShivalikPre` into Vercel and keep the repository root as the Root Directory.
+2. Use the detected Next.js preset, Node.js 22 and the default `npm run build` command.
+3. Add the environment variables listed above without exposing server-only secrets.
+4. Add both `shivalikpresente.com` and `www.shivalikpresente.com`, then keep `https://www.shivalikpresente.com` as the canonical production domain.
+5. Apply the Supabase migration and verify the Brevo sender before testing enquiries.
+6. Deploy, test OTP and lead delivery, then check `/robots.txt`, `/sitemap.xml` and `/favicon.ico`.
+7. Submit `https://www.shivalikpresente.com/sitemap.xml` in Google Search Console and request indexing for representative pages.
 
-For every valid enquiry, the API sends an HTML and plain-text transactional email through Brevo. Once Supabase is configured, it stores the lead there first as well. It returns success only after the active delivery steps complete. Supabase’s REST endpoint is protected with its server-only secret key, while the browser talks only to `/api/leads`. This follows [Supabase’s REST API guidance](https://supabase.com/docs/guides/api) and [Brevo’s transactional email API](https://developers.brevo.com/docs/send-a-transactional-email).
+## Security notes
 
-## OTP verification
+- Never commit `.env.local`, API keys, service-role keys or OTP secrets.
+- Rotate a credential immediately if it is exposed in Git history, screenshots or logs.
+- Keep the Supabase service-role key server-only; it bypasses Row Level Security.
+- The OTP session uses signed, HttpOnly, SameSite cookies with a 10-minute expiry.
+- Analytics should be enabled only with the consent approach required for the deployment.
 
-Leads require a verified Indian mobile number before they can be submitted. Add `TWO_FACTOR_API_KEY` and a random high-entropy `OTP_SESSION_SECRET` in the deployment environment. Both remain server-only; OTP provider session data is held in a short-lived, signed, HttpOnly cookie and the lead API verifies it again before delivery. The integration uses 2Factor’s OTP send and verification flow.
+## Quality checks
 
-Analytics IDs are optional and must be configured only with the appropriate consent approach for the deployment context. Add the Google Search Console token only after verification is obtained.
+Before production deployment, run:
 
-## Images
+```bash
+npm run lint
+npm run typecheck
+npm run build
+npm run seo:audit -- https://www.shivalikpresente.com
+```
 
-Approved assets belong under `public/images/presente/`. Recommended files include `hero/presente-hero.webp`, exterior renders, interior living/bedroom/dining images, amenity images, `location/gift-city-01.webp`, and `public/images/og/presente-og.jpg`. Use WebP where possible: hero images around 2400×1350, landscape content around 1800×1200, and OG image 1200×630.
+Technical SEO makes pages accessible and understandable to crawlers, but indexing positions and keyword rankings remain search-engine decisions and cannot be guaranteed.
+
+---
+
+<div align="center">
+  Built for <a href="https://www.shivalikpresente.com/">Shivalik Présenté</a> in GIFT City, Gandhinagar.
+</div>
