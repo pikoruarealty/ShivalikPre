@@ -1,3 +1,5 @@
+import { guideFaqs, guideSeoOverrides, projectFaqs } from "@/data/faqs";
+
 export type Faq = { question: string; answer: string };
 export type ContentSection = { title: string; body: string[] };
 export type SeoPage = { slug: string; title: string; description: string; eyebrow: string; h1: string; intro: string; sections: ContentSection[]; facts?: string[]; faqs: Faq[]; related: { href: string; label: string }[]; cta: string; variant?: "private-presentation" | "brochure" | "project-details" | "general-enquiry" };
@@ -5,9 +7,9 @@ export type Insight = { slug: string; title: string; description: string; catego
 
 const s = (title: string, ...body: string[]): ContentSection => ({ title, body });
 const projectFaq: Faq[] = [
-  { question: "What is Shivalik Présenté?", answer: "Shivalik Présenté is a collection of 54 riverfront residences in GIFT City, Gandhinagar, planned around privacy, scale and light." },
-  { question: "What configurations are available?", answer: "The collection includes 4 BHK residences and a limited number of 6 BHK duplex penthouses." },
-  { question: "How can I request current details?", answer: "Use the enquiry form to request a private presentation and current verified project material." },
+  { question: "What should I verify before comparing a residence?", answer: "Confirm the exact unit, plan, area basis, orientation, specifications, parking, approvals, costs and current availability." },
+  { question: "Can project details change?", answer: "Yes. Use dated, unit-specific documents and independent professional advice before making a decision or payment." },
+  { question: "How can I request current details?", answer: "Use the enquiry form to request a private presentation and the latest available project material." },
 ];
 const related = [{ href: "/shivalik-presente", label: "Project overview" }, { href: "/shivalik-presente-location", label: "Location context" }, { href: "/insights", label: "Property insights" }];
 
@@ -15,7 +17,7 @@ export const seoPages: SeoPage[] = [
   {
     slug: "shivalik-presente", title: "Shivalik Présenté | Riverfront Residences in GIFT City", description: "Explore Shivalik Présenté: 54 private riverfront 4 BHK residences and 6 BHK duplex penthouses in GIFT City, Gandhinagar.", eyebrow: "Project Overview", h1: "Shivalik Présenté riverfront residences in GIFT City.", intro: "A boutique collection of 54 residences shaped around riverfront views, private arrival and generous proportions in GIFT City.", facts: ["54 residences", "4 BHK residences", "6 BHK duplex penthouses", "Approx. 4 metre internal height"],
     sections: [s("A low-density collection", "Présenté comprises 51 simplex residences and three duplex penthouses across three architectural expressions: Arima, Bouquet and Cadeau. The limited number of homes supports an emphasis on privacy.", "Private lift foyers and no-common-wall planning create a deliberate threshold between the building and each home. Confirm the current sanctioned plans and specifications before deciding."), s("Homes composed around space", "The collection includes large-format 4 BHK residences and 6 BHK duplex penthouses. Approximately four-metre internal heights, open outlooks and floating vista decks shape the spatial proposition.", "Published sizes are approximate. Confirm the measurement basis, exact configuration, orientation and availability for the residence offered."), s("A GIFT City address", "The setting pairs Sabarmati riverfront views with access to GIFT City and the wider Ahmedabad–Gandhinagar region.")],
-    faqs: projectFaq, related: [{ href: "/shivalik-presente-4-bhk", label: "4 BHK residences" }, { href: "/shivalik-presente-penthouse", label: "Duplex penthouses" }, { href: "/shivalik-presente-amenities", label: "Amenities" }], cta: "Request Project Details",
+    faqs: projectFaqs, related: [{ href: "/shivalik-presente-4-bhk", label: "4 BHK residences" }, { href: "/shivalik-presente-penthouse", label: "Duplex penthouses" }, { href: "/shivalik-presente-amenities", label: "Amenities" }], cta: "Request Project Details",
   },
   {
     slug: "shivalik-presente-gift-city", title: "Shivalik Présenté GIFT City | Project & Location Guide", description: "Understand Shivalik Présenté in GIFT City: its riverfront setting, private residential format, configurations and buyer considerations.", eyebrow: "GIFT City Context", h1: "Shivalik Présenté in GIFT City, Gandhinagar.", intro: "A riverfront residence considered in the context of GIFT City’s business district and the Ahmedabad–Gandhinagar region.",
@@ -56,7 +58,15 @@ const guideData: Array<Omit<SeoPage, "eyebrow" | "related" | "cta">> = [
   { slug: "luxury-apartments-for-sale-gift-city", title: "Luxury Apartments for Sale in GIFT City | Buying Guide", description: "A practical process for buyers exploring luxury apartments for sale in GIFT City, from shortlist and site visit to documents and total cost.", h1: "Buying a luxury apartment in GIFT City: a clear process.", intro: "Move from a broad property search to a verified, unit-specific decision with a documented shortlist.", sections: [s("Create the shortlist", "Define configuration, usable space, privacy, orientation, view, possession horizon and budget before requesting current options."), s("Visit and compare", "Inspect the approach, arrival, sample or actual residence, views, lifts, parking, amenities and surrounding plots at realistic times."), s("Review the complete offer", "Record the exact unit, area basis, specifications, payment schedule, taxes, maintenance, parking and all applicable charges."), s("Complete independent diligence", "Use qualified legal and financial advisers to review title, approvals, agreements, finance and tax before reservation or payment.")], faqs: [{ question: "How do I shortlist luxury apartments for sale in GIFT City?", answer: "Start with purpose, configuration, usable plan, privacy, location, timing and total budget, then request current unit-specific details." }, { question: "Should I rely on advertised area?", answer: "No. Ask for the area definition and compare it with room dimensions and the exact plan." }, { question: "Can availability change?", answer: "Yes. Confirm current availability and commercial terms directly before making a decision." }] },
   { slug: "premium-apartments-near-ifsc-gift-city", title: "Premium Apartments near IFSC GIFT City | Location Guide", description: "Evaluate premium apartments near IFSC GIFT City by real journey times, residential setting, plan quality, services and long-term suitability.", h1: "Premium apartments near IFSC GIFT City: what proximity means.", intro: "A useful location comparison measures door-to-door convenience and residential quality rather than relying on a broad nearby label.", sections: [s("Test the actual journey", "Measure routes at relevant times and consider the exact office, school, airport or family destination rather than a single map estimate."), s("Study the residential setting", "Review access roads, noise, neighbouring plots, daily services, open outlooks and the balance between business-district proximity and home life."), s("Compare the residence", "Location should be tested alongside privacy, room dimensions, lifts, parking, backup systems, amenities and maintenance."), s("Separate present and future", "Distinguish infrastructure and services operating today from announced or proposed development, and verify material claims independently.")], faqs: projectFaq },
 ];
-seoPages.push(...guideData.map((page) => ({ ...page, eyebrow: "Buyer Guide", related, cta: "Request Project Details", variant: "general-enquiry" as const })));
+seoPages.push(...guideData.map((page) => ({
+  ...page,
+  ...(guideSeoOverrides[page.slug] ?? {}),
+  faqs: guideFaqs[page.slug] ?? page.faqs,
+  eyebrow: "Buyer Guide",
+  related,
+  cta: "Request Project Details",
+  variant: "general-enquiry" as const,
+})));
 
 const insightData: Array<[string, string, string, string, ContentSection[], string?]> = [
   ["shivalik-presente-gift-city", "Shivalik Présenté GIFT City: Project Guide", "Présenté", "A clear introduction to the 54-home collection, configurations, privacy and riverfront setting.", [s("Project in one view", "Présenté comprises 51 simplex residences and three duplex penthouses across Arima, Bouquet and Cadeau.", "Its proposition centres on private arrival, generous internal volume and riverfront views."), s("Residence formats", "Review exact plans and measurement bases for the 4 BHK residences and 6 BHK duplex penthouses."), s("Privacy by planning", "Private lift foyers and no-common-wall planning can reduce adjacency; also inspect doors, shafts and lifts."), s("What to request", "Ask for current availability, unit plan, orientation, area statement, specifications and documents.")]],

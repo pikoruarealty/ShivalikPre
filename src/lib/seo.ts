@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Insight, SeoPage } from "@/data/seo";
+import { projectFaqs } from "@/data/faqs";
 import { publicConfig } from "@/lib/config";
 export const siteUrl = publicConfig.siteUrl;
 const absolute = (path: string) => new URL(path, `${siteUrl}/`).toString();
@@ -66,7 +67,7 @@ export function websiteSchema() {
         "@id": organizationId,
         name: "Shivalik Présenté",
         url: absolute("/"),
-        logo: { "@type": "ImageObject", url: absolute("/images/presente/brand/presented-mark-512.png"), width: 512, height: 512 },
+        logo: { "@type": "ImageObject", url: absolute("/favicon-512.png"), width: 512, height: 512 },
         sameAs: ["https://shivalikgroup.com/projects/presente"],
       },
       {
@@ -89,6 +90,15 @@ export function websiteSchema() {
         description: "A private collection of riverfront residences in GIFT City, Gandhinagar.",
         address: { "@type": "PostalAddress", addressLocality: "Gandhinagar", addressRegion: "Gujarat", addressCountry: "IN" },
         numberOfAccommodationUnits: 54,
+      },
+      {
+        "@type": "FAQPage",
+        "@id": absolute("/#faq"),
+        mainEntity: projectFaqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
       },
     ],
   };

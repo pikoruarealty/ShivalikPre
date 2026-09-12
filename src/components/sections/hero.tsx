@@ -37,10 +37,10 @@ export function Hero() {
       <div className="hero-grain" aria-hidden="true" />
       <div className="hero-inner container">
         <div className="hero-copy">
-          <SectionLabel>{project.displayName}</SectionLabel>
+          <SectionLabel>GIFT City · Gandhinagar</SectionLabel>
           <h1 id="hero-title" className="display-heading">
-            <span className="hero-line"><span>Ultra-Luxury</span></span>
-            <span className="hero-line"><span><em>Riverfront</em> Residences.</span></span>
+            <span className="hero-line"><span>Shivalik <em>Présenté</em></span></span>
+            <span className="hero-line"><span>Riverfront Residences.</span></span>
           </h1>
           <p className="hero-description">A boutique collection of {project.residenceCounts.total} luxury apartments and riverfront homes in GIFT City, Gandhinagar.</p>
           <div className="hero-actions"><Button href="#introduction">{project.cta.primary}</Button><LeadButton source="hero-private-presentation" variant="private-presentation" buttonVariant="text">{project.cta.enquiry}</LeadButton></div>

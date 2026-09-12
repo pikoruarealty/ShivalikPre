@@ -8,8 +8,10 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "icons:generate": "node scripts/generate-icons.mjs",
     "start": "next start",
     "lint": "eslint .",
+    "seo:audit": "node scripts/audit-seo.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
