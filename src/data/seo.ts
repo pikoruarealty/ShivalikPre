@@ -1,9 +1,10 @@
 import { guideFaqs, guideSeoOverrides, projectFaqs } from "@/data/faqs";
+import { editorial } from "@/data/editorial";
 
 export type Faq = { question: string; answer: string };
 export type ContentSection = { title: string; body: string[] };
 export type SeoPage = { slug: string; title: string; description: string; eyebrow: string; h1: string; intro: string; sections: ContentSection[]; facts?: string[]; faqs: Faq[]; related: { href: string; label: string }[]; cta: string; variant?: "private-presentation" | "brochure" | "project-details" | "general-enquiry" };
-export type Insight = { slug: string; title: string; description: string; category: string; publishedDate: string; updatedDate: string; excerpt: string; sections: ContentSection[]; relatedPages: { href: string; label: string }[] };
+export type Insight = { slug: string; title: string; description: string; category: string; publishedDate: string; updatedDate: string; excerpt: string; sections: ContentSection[]; relatedPages: { href: string; label: string }[]; sources?: { href: string; label: string }[]; authorName?: string; reviewerName?: string };
 
 const s = (title: string, ...body: string[]): ContentSection => ({ title, body });
 const projectFaq: Faq[] = [
@@ -11,13 +12,13 @@ const projectFaq: Faq[] = [
   { question: "Can project details change?", answer: "Yes. Use dated, unit-specific documents and independent professional advice before making a decision or payment." },
   { question: "How can I request current details?", answer: "Use the enquiry form to request a private presentation and the latest available project material." },
 ];
-const related = [{ href: "/shivalik-presente", label: "Project overview" }, { href: "/shivalik-presente-location", label: "Location context" }, { href: "/insights", label: "Property insights" }];
+const related = [{ href: "/", label: "Project overview" }, { href: "/project-facts", label: "Verified project facts" }, { href: "/insights", label: "Property insights" }];
 
 export const seoPages: SeoPage[] = [
   {
     slug: "shivalik-presente", title: "Shivalik Présenté | Riverfront Residences in GIFT City", description: "Explore Shivalik Présenté: 54 private riverfront 4 BHK residences and 6 BHK duplex penthouses in GIFT City, Gandhinagar.", eyebrow: "Project Overview", h1: "Shivalik Présenté riverfront residences in GIFT City.", intro: "A boutique collection of 54 residences shaped around riverfront views, private arrival and generous proportions in GIFT City.", facts: ["54 residences", "4 BHK residences", "6 BHK duplex penthouses", "Approx. 4 metre internal height"],
     sections: [s("A low-density collection", "Présenté comprises 51 simplex residences and three duplex penthouses across three architectural expressions: Arima, Bouquet and Cadeau. The limited number of homes supports an emphasis on privacy.", "Private lift foyers and no-common-wall planning create a deliberate threshold between the building and each home. Confirm the current sanctioned plans and specifications before deciding."), s("Homes composed around space", "The collection includes large-format 4 BHK residences and 6 BHK duplex penthouses. Approximately four-metre internal heights, open outlooks and floating vista decks shape the spatial proposition.", "Published sizes are approximate. Confirm the measurement basis, exact configuration, orientation and availability for the residence offered."), s("A GIFT City address", "The setting pairs Sabarmati riverfront views with access to GIFT City and the wider Ahmedabad–Gandhinagar region.")],
-    faqs: projectFaqs, related: [{ href: "/shivalik-presente-4-bhk", label: "4 BHK residences" }, { href: "/shivalik-presente-penthouse", label: "Duplex penthouses" }, { href: "/shivalik-presente-amenities", label: "Amenities" }], cta: "Request Project Details",
+    faqs: projectFaqs, related: [{ href: "/4-bhk-apartments-gift-city", label: "4 BHK residences" }, { href: "/6-bhk-penthouse-gift-city", label: "Duplex penthouses" }, { href: "/shivalik-presente-amenities", label: "Amenities" }], cta: "Request Project Details",
   },
   {
     slug: "shivalik-presente-gift-city", title: "Shivalik Présenté GIFT City | Project & Location Guide", description: "Understand Shivalik Présenté in GIFT City: its riverfront setting, private residential format, configurations and buyer considerations.", eyebrow: "GIFT City Context", h1: "Shivalik Présenté in GIFT City, Gandhinagar.", intro: "A riverfront residence considered in the context of GIFT City’s business district and the Ahmedabad–Gandhinagar region.",
@@ -25,14 +26,14 @@ export const seoPages: SeoPage[] = [
     faqs: projectFaq, related, cta: "Request a Private Presentation",
   },
   {
-    slug: "shivalik-presente-4-bhk", title: "Shivalik Présenté 4 BHK Residences | GIFT City", description: "Explore Shivalik Présenté 4 BHK riverfront residences in GIFT City, with private lift foyers, no shared walls and generous proportions.", eyebrow: "4 BHK Residences", h1: "Large-format 4 BHK residences in GIFT City.", intro: "Approx. 6,300–7,100 sq.ft. residences composed for privacy, flexible family living and a relationship with the riverfront.", facts: ["Approx. 6,300–7,100 sq.ft.", "Private lift foyer", "No shared walls", "Riverfront-facing"],
+    slug: "shivalik-presente-4-bhk", title: "Shivalik Présenté 4 BHK Residences | GIFT City", description: "Explore Shivalik Présenté 4 BHK riverfront residences in GIFT City, with private lift foyers, no shared walls and generous proportions.", eyebrow: "4 BHK Residences", h1: "Large-format 4 BHK residences in GIFT City.", intro: "Published at approximately 6,300–7,100 sq. ft. RA, these residences are composed for privacy, flexible family living and a relationship with the riverfront.", facts: ["Approx. 6,300–7,100 sq. ft. RA", "Private lift foyer", "No shared walls", "Riverfront-facing"],
     sections: [s("How the space works", "A large floor plate is valuable when circulation, private rooms and social spaces remain clearly organised. Compare usable room dimensions, storage, service circulation, deck depth and furniture placement."), s("Privacy before the front door", "A private lift foyer creates a transition into the home. No-common-wall planning can reduce direct adjacency, while acoustic performance also depends on construction and services."), s("Confirm the exact residence", "Request the plan, orientation, floor, measurement statement and specification for the residence under consideration. Approximate ranges are only a starting point.")],
-    faqs: [{ question: "What is the stated 4 BHK size?", answer: "Approximately 6,300–7,100 sq.ft.; confirm the exact unit area and measurement basis." }, { question: "Are private lift foyers included?", answer: "A private lift foyer experience is a stated project feature." }, { question: "How can I request a plan?", answer: "Request project details and select the 4 BHK requirement." }], related: [{ href: "/4-bhk-apartments-gift-city", label: "4 BHK buyer guide" }, { href: "/shivalik-presente-floor-plan", label: "Floor-plan information" }, { href: "/insights/4-bhk-luxury-apartments-gift-city", label: "4 BHK checklist" }], cta: "Request Floor Plan", variant: "project-details",
+    faqs: [{ question: "What is the stated 4 BHK size?", answer: "Published material states approximately 6,300–7,100 sq. ft. RA. Ask the project team to define RA and confirm the exact statutory area statement." }, { question: "Are private lift foyers included?", answer: "A private lift foyer experience is a stated project feature." }, { question: "How can I request a plan?", answer: "Request project details and select the 4 BHK requirement." }], related: [{ href: "/4-bhk-apartments-gift-city", label: "4 BHK buyer guide" }, { href: "/shivalik-presente-floor-plan", label: "Floor-plan information" }, { href: "/insights/4-bhk-luxury-apartments-gift-city", label: "4 BHK checklist" }], cta: "Request Floor Plan", variant: "project-details",
   },
   {
-    slug: "shivalik-presente-penthouse", title: "Shivalik Présenté 6 BHK Duplex Penthouses | GIFT City", description: "Discover the limited 6 BHK duplex penthouses at Shivalik Présenté in GIFT City, designed around scale, privacy and riverfront outlooks.", eyebrow: "Duplex Penthouses", h1: "6 BHK duplex penthouses above GIFT City.", intro: "A limited collection of three duplex penthouses, stated at approximately 12,250–13,700 sq.ft.", facts: ["Three duplex penthouses", "Approx. 12,250–13,700 sq.ft.", "Riverfront-facing", "Private lift foyer"],
+    slug: "shivalik-presente-penthouse", title: "Shivalik Présenté 6 BHK Duplex Penthouses | GIFT City", description: "Discover the limited 6 BHK duplex penthouses at Shivalik Présenté in GIFT City, designed around scale, privacy and riverfront outlooks.", eyebrow: "Duplex Penthouses", h1: "6 BHK duplex penthouses above GIFT City.", intro: "A limited collection of three duplex penthouses, published at approximately 12,280–13,730 sq. ft. RA.", facts: ["Three duplex penthouses", "Approx. 12,280–13,730 sq. ft. RA", "Riverfront-facing", "Private lift foyer"],
     sections: [s("Why duplex planning differs", "A duplex creates vertical separation. Review stair placement, lift access, ceiling volumes, service movement and how both levels connect in daily use."), s("Scarcity with a practical test", "Only three duplex penthouses form part of the stated collection. Still test usable area, views, heat exposure, waterproofing, services, maintenance and long-term suitability."), s("A unit-specific presentation", "Availability can change. Request the current plan, orientation, area statement and applicable documents for the exact home.")],
-    faqs: [{ question: "How many duplex penthouses are planned?", answer: "The project information states three." }, { question: "What is the stated size?", answer: "Approximately 12,250–13,700 sq.ft.; verify the exact measurement." }, { question: "How can I request details?", answer: "Use the private-presentation enquiry and select penthouse." }], related: [{ href: "/luxury-penthouses-gift-city", label: "Penthouse guide" }, { href: "/shivalik-presente", label: "Project overview" }, { href: "/insights/luxury-penthouses-gift-city", label: "Penthouse checklist" }], cta: "Request a Private Presentation",
+    faqs: [{ question: "How many duplex penthouses are planned?", answer: "The project information states three." }, { question: "What is the stated size?", answer: "Published material states approximately 12,280–13,730 sq. ft. RA. Ask the project team to define RA and confirm the exact statutory area statement." }, { question: "How can I request details?", answer: "Use the private-presentation enquiry and select penthouse." }], related: [{ href: "/6-bhk-penthouse-gift-city", label: "Penthouse guide" }, { href: "/project-facts", label: "Verified project facts" }, { href: "/insights/luxury-penthouses-gift-city", label: "Penthouse checklist" }], cta: "Request a Private Presentation",
   },
   {
     slug: "shivalik-presente-floor-plan", title: "Shivalik Présenté Floor Plans | Request Current Details", description: "Request current floor-plan guidance for Shivalik Présenté 4 BHK residences and 6 BHK duplex penthouses in GIFT City.", eyebrow: "Floor Plans", h1: "Request current Shivalik Présenté floor plans.", intro: "Detailed plans are shared privately with the context needed to read configuration and area correctly.",
@@ -90,4 +91,136 @@ const insightData: Array<[string, string, string, string, ContentSection[], stri
   ["buy-luxury-flat-gandhinagar", "Buying a Luxury Flat in Gandhinagar: From Shortlist to Agreement", "Buyer Guides", "A staged process for shortlisting, visiting, costing and verifying a premium residence in Gandhinagar.", [s("Write the brief", "Set purpose, location, configuration, usable-space needs, privacy expectations, timing and budget."), s("Create comparable records", "For each option, record the exact unit, area basis, plan, orientation, parking, specifications and complete cost."), s("Visit critically", "Test routes and inspect arrival, lifts, common areas, views, noise and surrounding plots."), s("Review independently", "Use qualified advisers for title, approvals, agreement terms, finance and tax before payment.")], "2026-09-07"],
   ["luxury-real-estate-gift-city-investment", "Luxury Real Estate in GIFT City: An Investment Evaluation Framework", "Investment", "A balanced way to examine entry price, end-user demand, holding cost, competing supply, execution and liquidity.", [s("Separate district and asset", "A positive view of GIFT City does not remove project, unit, price or execution risk."), s("Identify real demand", "Define who may occupy, rent or buy the residence at its ticket size and what alternatives they have."), s("Model the full holding cost", "Include taxes, finance, fit-out, maintenance, vacancy, management and exit expenses."), s("Stress-test the exit", "Consider time horizon, liquidity, competing supply and downside scenarios. Returns are not guaranteed; seek independent advice.")], "2026-09-08"],
 ];
-export const insights: Insight[] = insightData.map(([slug, title, category, excerpt, sections, publishedDate], index) => ({ slug, title, description: excerpt, category, publishedDate: publishedDate ?? `2026-${String(Math.min(index + 1, 8)).padStart(2, "0")}-15`, updatedDate: "2026-09-10", excerpt, sections, relatedPages: related }));
+
+const configurationLinks = [
+  { href: "/4-bhk-apartments-gift-city", label: "Explore 4 BHK residences" },
+  { href: "/6-bhk-penthouse-gift-city", label: "Explore 6 BHK duplex penthouses" },
+  { href: "/", label: "View Shivalik Presente" },
+];
+
+const newInsights: Insight[] = [
+  {
+    slug: "shivalik-presente-vs-sobha-elysia",
+    title: "Shivalik Presente vs SOBHA Elysia: A Buyer-Led Comparison",
+    description: "Compare Shivalik Presente and SOBHA Elysia in GIFT City by configuration, scale, density, amenities and the documents that matter.",
+    category: "Comparisons",
+    publishedDate: "2026-09-12",
+    updatedDate: "2026-09-20",
+    excerpt: "A transparent comparison of two different residential propositions in GIFT City, using current official project information and a unit-specific verification checklist.",
+    sections: [
+      s("The clearest difference is the residential format", "Shivalik Presente is presented as a low-density collection of 54 residences: large-format 4 BHK homes and three 6 BHK duplex penthouses. SOBHA's official Elysia page currently describes 572 residences across two towers, with 3 and 4 bedroom homes, home-office options and 4 bedroom duplexes.", "That makes this less a like-for-like brand contest and more a choice between a limited large-format collection and a substantially larger community. Confirm current inventory directly with each project before treating any published count as available stock."),
+      s("Compare usable space, not labels", "SOBHA currently publishes an overall 1,817-3,462 sq. ft. range on its official page. Shivalik Presente material states approximately 6,300-7,100 sq. ft. RA for its 4 BHK residences and approximately 12,280-13,730 sq. ft. RA for its 6 BHK duplex penthouses.", "The measurement basis may differ. Ask both teams for the exact plan, carpet area or applicable statutory area statement, room dimensions, deck area, parking and complete cost for the specific residence."),
+      s("Density and amenities create different trade-offs", "A larger development can support a broad shared-amenity programme and a wider mix of home sizes. A smaller collection can prioritise privacy, fewer neighbours and a more individual arrival experience. Neither is automatically better; the right fit depends on how often the household will use shared facilities and how strongly it values low density."),
+      s("Use a neutral final checklist", "Compare exact unit, floor, orientation, view, usable dimensions, homes per floor, lift strategy, shared walls, parking, specifications, maintenance assumptions, construction stage, approvals, agreement terms and total acquisition cost. Visit both sites and use independent legal and technical advisers before paying a reservation amount."),
+    ],
+    relatedPages: configurationLinks,
+    sources: [
+      { href: "https://shivalikgroup.com/projects/presente", label: "Shivalik Group official Présenté page" },
+      { href: "https://www.shivalikgroup.com/Shivalik_Pocket.pdf", label: "Shivalik Group Pocket project document" },
+      { href: "https://www.sobha.com/gift-city-gujarat/sobha-elysia-apartments-raysan-gandhinagar/", label: "SOBHA Elysia official project page" },
+      { href: "https://www.gujrera.gujarat.gov.in/", label: "Gujarat RERA" },
+    ],
+  },
+  {
+    slug: "4-bhk-vs-6-bhk-duplex-gift-city",
+    title: "4 BHK vs 6 BHK Duplex in GIFT City: Which Fits Your Family?",
+    description: "Compare a large-format 4 BHK residence with a 6 BHK duplex penthouse through daily movement, privacy, hosting, accessibility and ownership effort.",
+    category: "Buyer Guides",
+    publishedDate: "2026-09-13",
+    updatedDate: "2026-09-20",
+    excerpt: "Bedroom count is only the start: the better configuration is the one whose circulation, privacy and upkeep match the household's real routines.",
+    sections: [
+      s("Choose one level for effortless daily movement", "A 4 BHK simplex keeps bedrooms, living spaces and services on one floor. This can simplify movement for children, older family members and households that want every key space within a single circulation loop."),
+      s("Choose a duplex for stronger vertical separation", "A 6 BHK duplex can place formal entertaining and family life on different levels, or separate primary bedrooms from guest and work zones. Check whether the internal stair and lift access support daily use rather than merely creating visual drama."),
+      s("Map the household before comparing area", "List residents, regular guests, work-from-home needs, staff movement, storage, hobbies and accessibility requirements. Then test furniture layouts, door swings, kitchen workflow, acoustic separation, deck use and the route from parking to each important room."),
+      s("Model the operating commitment", "More area can mean higher furnishing, cooling, cleaning and maintenance requirements. A duplex also adds stair, waterproofing and top-floor exposure questions. Compare total ownership effort alongside purchase price."),
+      s("Request the exact Shivalik Presente options", "Published project material describes approximately 6,300-7,100 sq. ft. RA 4 BHK residences and approximately 12,280-13,730 sq. ft. RA 6 BHK duplex penthouses. Availability, the definition of RA, statutory area, floor, orientation and specifications must be confirmed for the residence offered."),
+    ],
+    relatedPages: configurationLinks,
+    sources: [
+      { href: "https://www.shivalikgroup.com/Shivalik_Pocket.pdf", label: "Shivalik Group Pocket project document" },
+      { href: "https://www.gujrera.gujarat.gov.in/", label: "Gujarat RERA" },
+    ],
+  },
+  {
+    slug: "nri-guide-buying-property-gift-city",
+    title: "NRI Guide to Buying Property in GIFT City",
+    description: "A practical NRI workflow for eligibility, RERA checks, banking routes, home loans, remote diligence, repatriation planning and handover.",
+    category: "NRI Guides",
+    publishedDate: "2026-09-14",
+    updatedDate: "2026-09-20",
+    excerpt: "Organise the legal, banking and on-ground work before reserving a residence, and use current professional advice for rules that depend on your status.",
+    sections: [
+      s("Confirm eligibility and ownership structure first", "RBI guidance says NRIs and OCIs can generally purchase residential or commercial immovable property in India, while agricultural land, farmhouses and plantation property are treated differently. Citizenship, residency, co-ownership and funding facts matter, so obtain current legal and tax advice for your case."),
+      s("Verify the project and the exact unit", "Check the project registration and current disclosures on Gujarat RERA. Request the exact tower, floor, residence number, sanctioned plan, area statement, specifications, parking, payment schedule, approvals, draft agreement and expected completion information. Appoint an independent property lawyer rather than relying only on sales material."),
+      s("Keep payments inside permitted banking routes", "RBI guidance requires property payments to move through banking channels and allows eligible funds in NRE, FCNR(B) or NRO accounts, subject to applicable rules. Keep a clean file of remittance advice, account statements, invoices, tax deductions and receipts."),
+      s("Treat the home loan as a separate diligence track", "Ask banks for current NRI eligibility, loan-to-value, income-document requirements, power-of-attorney process, rate reset terms, prepayment rules and permitted repayment accounts. Compare the sanction against the developer payment schedule before committing."),
+      s("Plan repatriation before the eventual sale", "Repatriation depends on how the property was acquired, the source of funds, taxes, documentary evidence and limits or conditions applicable at the time. Preserve the purchase agreement and full payment trail, and take advice from an authorised dealer bank and tax professional before any future remittance."),
+      s("Build an on-ground handover team", "Arrange a trusted representative or appropriately drafted power of attorney, independent snagging, registration support, insurance, furnishing, utility setup and ongoing property management. Remote ownership works best when responsibilities and document custody are explicit."),
+    ],
+    relatedPages: configurationLinks,
+    sources: [
+      { href: "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/79MN250915FM.pdf", label: "RBI: acquisition and transfer of immovable property in India" },
+      { href: "https://www.gujrera.gujarat.gov.in/", label: "Gujarat RERA" },
+    ],
+  },
+  {
+    slug: "gift-city-property-price-trends-q3-2026",
+    title: "GIFT City Property Price Trends: Q3 2026 Review Framework",
+    description: "A source-led method for reviewing GIFT City property price trends without confusing asking prices, transaction evidence and unlike-for-like homes.",
+    category: "Market Updates",
+    publishedDate: "2026-09-15",
+    updatedDate: "2026-09-20",
+    excerpt: "A quarterly price review should separate advertised inventory from registered evidence, then adjust for configuration, area basis, stage and micro-location.",
+    sections: [
+      s("Do not publish a single blended rate", "GIFT City inventory spans different configurations, project stages, area definitions, floors, views and payment plans. A single per-square-foot figure can create false precision unless every observation uses the same area basis and comparable transaction terms."),
+      s("Use a repeatable evidence hierarchy", "Start with registered transaction evidence where accessible, then current RERA disclosures and dated developer price sheets. Use portal asking prices only as a market-sentiment layer because an advertised number is not proof of a completed transaction."),
+      s("Create comparable groups", "Separate new sale and resale, ready and under-construction, simplex and duplex, configuration, floor band, view, area basis and payment plan. Record incentives and non-price inclusions so headline rates do not conceal different effective costs."),
+      s("Read demand indicators cautiously", "Official GIFT City updates on operating entities, employment, allotted space and building occupancy can help describe the district context. They do not by themselves prove residential price appreciation or rental yield."),
+      s("What this quarter can responsibly conclude", "Without a sufficiently large, verified and like-for-like transaction sample, this edition does not publish an appreciation percentage. The responsible next step is to maintain a dated comparison sheet and report median ranges, sample size and methodology once the evidence supports them."),
+      s("How buyers should use a trend report", "Use market context to frame negotiation, then return to the exact residence: plan, area basis, floor, view, specification, possession horizon, total cost and competing supply. Past or advertised price movement is not a guaranteed return."),
+    ],
+    relatedPages: configurationLinks,
+    sources: [
+      { href: "https://www.giftgujarat.in/", label: "GIFT City official website" },
+      { href: "https://www.giftgujarat.in/occupancy-dashboard", label: "GIFT City occupancy dashboard" },
+      { href: "https://www.gujrera.gujarat.gov.in/", label: "Gujarat RERA" },
+    ],
+  },
+];
+
+const existingInsights = insightData.map<Insight>(([slug, title, category, excerpt, sections, publishedDate], index) => ({
+  slug,
+  title,
+  description: excerpt,
+  category,
+  publishedDate: publishedDate ?? `2026-${String(Math.min(index + 1, 8)).padStart(2, "0")}-15`,
+  updatedDate: "2026-09-10",
+  excerpt,
+  sections,
+  relatedPages: configurationLinks,
+}));
+
+export const insights: Insight[] = [...existingInsights, ...newInsights].map((article) => ({
+  ...article,
+  authorName: article.authorName ?? editorial.authorName,
+  reviewerName: article.reviewerName ?? editorial.reviewerName,
+}));
+
+const configurationPageLinks: Record<string, { href: string; label: string }[]> = {
+  "4-bhk-apartments-gift-city": [
+    { href: "/insights/4-bhk-vs-6-bhk-duplex-gift-city", label: "4 BHK vs 6 BHK duplex guide" },
+    { href: "/insights/4-bhk-luxury-apartments-gift-city", label: "4 BHK buyer checklist" },
+    { href: "/insights/shivalik-presente-vs-sobha-elysia", label: "Compare with SOBHA Elysia" },
+  ],
+  "6-bhk-penthouse-gift-city": [
+    { href: "/insights/4-bhk-vs-6-bhk-duplex-gift-city", label: "4 BHK vs 6 BHK duplex guide" },
+    { href: "/insights/luxury-penthouses-gift-city", label: "Penthouse buyer guide" },
+    { href: "/insights/shivalik-presente-vs-sobha-elysia", label: "Compare with SOBHA Elysia" },
+  ],
+};
+
+for (const page of seoPages) {
+  const links = configurationPageLinks[page.slug];
+  if (links) page.related = links;
+}

@@ -101,7 +101,7 @@ export function LeadForm({ source, variant, onSuccess }: Props) {
       const website = String(new FormData(event.currentTarget).get("website") ?? "");
       const name = `${fields.name.trim()} ${fields.lastName.trim()}`.trim();
       const result = await submitLead({ name, phone: normalisePhone(fields.phone), email: fields.email.trim(), requirement: fields.requirement || undefined, source, variant, attribution: getAttribution(), website });
-      if (result.ok) { trackEvent("lead_form_success", { source, variant }); onSuccess(); } else throw new Error("Lead submission failed");
+      if (result.ok) { trackEvent("lead_form_success", { source, variant }); if (fields.requirement === "Private Presentation / Site Visit") trackEvent("site_visit_request", { source }); onSuccess(); } else throw new Error("Lead submission failed");
     } catch (error) {
       setSubmitError(error instanceof DOMException && error.name === "TimeoutError" ? "The request took too long. Please try again." : "We couldn’t submit your request right now. Please try again.");
       setShowWhatsAppFallback(true);

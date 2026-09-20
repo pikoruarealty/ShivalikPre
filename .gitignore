@@ -10,3 +10,5 @@ npm-install*.log
 package-lock.invalid.json
 tsconfig.tsbuildinfo
 allimgs/
+tmp/
+output/

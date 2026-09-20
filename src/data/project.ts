@@ -1,3 +1,5 @@
+import { fourBhkAreaLabel, projectFacts, sixBhkAreaLabel } from "@/data/project-facts";
+
 export const project = {
   projectName: "Shivalik Presente",
   displayName: "Shivalik Présenté",
@@ -21,8 +23,8 @@ export const project = {
     duplexPenthouses: 3,
   },
   configurations: [
-    { label: "4 BHK", area: "Approximately 6,300-7,100 sq. ft." },
-    { label: "6 BHK Duplex Penthouses", area: "Approximately 12,250-13,700 sq. ft." },
+    { label: "4 BHK", area: `Approximately ${fourBhkAreaLabel}` },
+    { label: "6 BHK Duplex Penthouses", area: `Approximately ${sixBhkAreaLabel}` },
   ],
   towers: ["Arima", "Bouquet", "Cadeau"],
   features: [
@@ -48,13 +50,13 @@ export const project = {
     introduction: "Expansive homes composed around privacy, natural light and the riverfront horizon.",
     fourBhk: {
       label: "4 BHK Residences",
-      sizeRange: "Approx. 6,300-7,100 sq.ft.",
+      sizeRange: `Approx. ${fourBhkAreaLabel}`,
       description: "Ultra-spacious residences planned for generous everyday living, personal privacy and a seamless relationship with the riverfront.",
       features: ["Private lift foyer", "No shared walls", "Riverfront-facing", "Floating vista decks"],
     },
     penthouse: {
       label: "Duplex Penthouses",
-      sizeRange: "Approx. 12,250-13,700 sq.ft.",
+      sizeRange: `Approx. ${sixBhkAreaLabel}`,
       description: "A limited collection of duplex residences conceived for exceptional scale, privacy and elevated living.",
       features: ["Private lift foyer", "No shared walls", "Riverfront-facing"],
     },
@@ -144,6 +146,7 @@ export const project = {
     whatsapp: "916354359222",
     email: "luxuryrealestateahmedabad@gmail.com",
   },
+  factsLastReviewed: projectFacts.lastReviewed,
   leadSettings: {
     popupDelayMs: 6000,
     popupScrollThreshold: 0.25,

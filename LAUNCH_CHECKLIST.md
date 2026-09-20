@@ -9,3 +9,4 @@
 - [ ] Complete official legal review of Privacy and Disclaimer pages.
 - [ ] Run `npm install`, `npm run typecheck`, `npm run lint`, and `npm run build`.
 - [ ] Perform device/browser, keyboard, form delivery, and production SEO validation.
+- [ ] Complete every applicable item in `SEO_LAUNCH_RUNBOOK.md` after deployment.

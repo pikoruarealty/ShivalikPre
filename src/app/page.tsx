@@ -32,7 +32,7 @@ import { websiteSchema } from "@/lib/seo";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: "Shivalik Présenté GIFT City | 4 BHK Luxury Apartments",
+  title: "Riverfront Residences in GIFT City",
   description: "Explore Shivalik Présenté in GIFT City, Gandhinagar: 54 riverfront homes with large 4 BHK residences and limited 6 BHK duplex penthouses.",
 });
 

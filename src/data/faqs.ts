@@ -24,7 +24,7 @@ export const projectFaqs: SeoFaq[] = [
   {
     question: "What are the stated sizes of the residences?",
     answer:
-      "The 4 BHK residences are stated at approximately 6,300–7,100 sq. ft., while the 6 BHK duplex penthouses are stated at approximately 12,250–13,700 sq. ft. Confirm the measurement basis and exact unit plan in current official documents.",
+      "Published project material states approximately 6,300–7,100 sq. ft. RA for the 4 BHK residences and 12,280–13,730 sq. ft. RA for the 6 BHK duplex penthouses. Ask the project team to define RA and confirm the exact statutory area statement and unit plan before deciding.",
   },
   {
     question: "Is ‘Shivalik Present’ the same project as Shivalik Présenté?",
@@ -65,7 +65,7 @@ export const guideFaqs: Record<string, SeoFaq[]> = {
     {
       question: "What is the stated size of a 4 BHK residence at Shivalik Présenté?",
       answer:
-        "The current project information states an approximate range of 6,300–7,100 sq. ft. Ask for the exact plan and area statement because the basis of measurement matters when comparing large homes.",
+        "Published project material states approximately 6,300–7,100 sq. ft. RA. Ask the project team to define RA and provide the exact statutory area statement and plan because measurement basis matters when comparing large homes.",
     },
     {
       question: "What privacy features should a 4 BHK buyer check?",

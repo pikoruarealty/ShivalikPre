@@ -9,5 +9,5 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & { source: string; variant
 
 export function LeadButton({ source, variant = "general-enquiry", buttonVariant = "primary", className = "", children, onClick, ...props }: Props) {
   const { openLeadModal } = useLeadModal();
-  return <button type="button" className={`button button-${buttonVariant} lead-button ${className}`.trim()} onClick={(event) => { onClick?.(event); if (!event.defaultPrevented) { trackEvent("cta_click", { source, variant }); openLeadModal(source, variant); } }} {...props}>{children}</button>;
+  return <button type="button" className={`button button-${buttonVariant} lead-button ${className}`.trim()} onClick={(event) => { onClick?.(event); if (!event.defaultPrevented) { trackEvent("cta_click", { source, variant }); if (variant === "brochure") trackEvent("brochure_request", { source }); if (variant === "project-details") trackEvent("floor_plan_request", { source }); openLeadModal(source, variant); } }} {...props}>{children}</button>;
 }

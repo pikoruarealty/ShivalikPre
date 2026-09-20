@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 import type { Insight, SeoPage } from "@/data/seo";
 import { projectFaqs } from "@/data/faqs";
+import { editorial } from "@/data/editorial";
+import { fourBhkAreaLabel, projectFacts, sixBhkAreaLabel } from "@/data/project-facts";
 import { publicConfig } from "@/lib/config";
 export const siteUrl = publicConfig.siteUrl;
 const absolute = (path: string) => new URL(path, `${siteUrl}/`).toString();
 const ogImage = "/images/presente/exterior/presente-exterior-wide.jpeg";
-const fullTitle = (title: string) => title.includes("Shivalik Présenté") ? title : `${title} | Shivalik Présenté`;
+const titleSuffix = "Shivalik Presente GIFT City";
+const fullTitle = (title: string) => {
+  if (title.endsWith(`| ${titleSuffix}`)) return title;
+  const primaryKeyword = title.split(" | ")[0].trim();
+  return `${primaryKeyword} | ${titleSuffix}`;
+};
 
 export function createPageMetadata({
   title,
@@ -31,9 +38,9 @@ export function createPageMetadata({
     title: { absolute: resolvedTitle },
     description,
     alternates: { canonical: url },
-    authors: [{ name: "Shivalik Présenté", url: siteUrl }],
-    creator: "Shivalik Présenté",
-    publisher: "Shivalik Présenté",
+    authors: [{ name: editorial.authorName, url: absolute(editorial.policyPath) }],
+    creator: editorial.authorName,
+    publisher: "Shivalik Presente Information Website",
     category: type === "article" ? "Real Estate" : undefined,
     openGraph: {
       title: resolvedTitle,
@@ -54,9 +61,22 @@ export function createPageMetadata({
   };
 }
 
-const organizationId = absolute("/#organization");
+const developerId = absolute("/#developer");
+const editorialId = absolute("/editorial-policy#editorial-desk");
 const websiteId = absolute("/#website");
 const propertyId = absolute("/#property");
+const listingId = absolute("/#real-estate-listing");
+
+const editorialOrganization = () => ({
+  "@type": "Organization",
+  "@id": editorialId,
+  name: editorial.authorName,
+  url: absolute(editorial.policyPath),
+  description: editorial.description,
+  logo: { "@type": "ImageObject", url: absolute("/favicon-512.png"), width: 512, height: 512 },
+  email: publicConfig.email ?? undefined,
+  telephone: publicConfig.phone ?? undefined,
+});
 
 export function websiteSchema() {
   return {
@@ -64,12 +84,12 @@ export function websiteSchema() {
     "@graph": [
       {
         "@type": "Organization",
-        "@id": organizationId,
-        name: "Shivalik Présenté",
-        url: absolute("/"),
-        logo: { "@type": "ImageObject", url: absolute("/favicon-512.png"), width: 512, height: 512 },
-        sameAs: ["https://shivalikgroup.com/projects/presente"],
+        "@id": developerId,
+        name: projectFacts.developerName,
+        url: "https://shivalikgroup.com/",
+        sameAs: [projectFacts.sources.officialProject],
       },
+      editorialOrganization(),
       {
         "@type": "WebSite",
         "@id": websiteId,
@@ -77,7 +97,7 @@ export function websiteSchema() {
         alternateName: ["Présenté", "Shivalik Presente"],
         url: absolute("/"),
         description: "Ultra-luxury riverfront residences in GIFT City, Gandhinagar.",
-        publisher: { "@id": organizationId },
+        publisher: { "@id": editorialId },
         inLanguage: "en-IN",
       },
       {
@@ -90,6 +110,25 @@ export function websiteSchema() {
         description: "A private collection of riverfront residences in GIFT City, Gandhinagar.",
         address: { "@type": "PostalAddress", addressLocality: "Gandhinagar", addressRegion: "Gujarat", addressCountry: "IN" },
         numberOfAccommodationUnits: 54,
+        additionalProperty: [
+          { "@type": "PropertyValue", name: "Developer", value: projectFacts.developerName },
+          { "@type": "PropertyValue", name: "4 BHK published area", value: fourBhkAreaLabel },
+          { "@type": "PropertyValue", name: "6 BHK duplex published area", value: sixBhkAreaLabel },
+        ],
+        amenityFeature: [
+          { "@type": "LocationFeatureSpecification", name: "Private lift foyer", value: true },
+          { "@type": "LocationFeatureSpecification", name: "Riverfront-facing residences", value: true },
+        ],
+      },
+      {
+        "@type": "RealEstateListing",
+        "@id": listingId,
+        name: "Shivalik Presente riverfront residences in GIFT City",
+        url: absolute("/"),
+        description: "A listing for 4 BHK residences and limited 6 BHK duplex penthouses at Shivalik Presente in GIFT City, Gandhinagar.",
+        mainEntity: { "@id": propertyId },
+        publisher: { "@id": editorialId },
+        inLanguage: "en-IN",
       },
       {
         "@type": "FAQPage",
@@ -102,6 +141,24 @@ export function websiteSchema() {
       },
     ],
   };
+}
+
+export function seoBreadcrumbs(page: SeoPage) {
+  const topic = page.slug.includes("4-bhk")
+    ? "4 BHK Apartments"
+    : page.slug.includes("6-bhk") || page.slug.includes("penthouse")
+      ? "6 BHK Duplex Penthouses"
+      : page.slug.includes("riverfront")
+        ? "Riverfront Apartments"
+        : page.eyebrow === "Buyer Guide"
+          ? "Buyer Guide"
+          : page.h1;
+
+  return [
+    { href: "/", label: "Home" },
+    { href: "/shivalik-presente-gift-city", label: "GIFT City" },
+    { href: `/${page.slug}`, label: topic },
+  ];
 }
 
 export function pageSchema(page: SeoPage, path: string, crumbs: { href: string; label: string }[]) {
@@ -170,13 +227,36 @@ export function articleSchema(article: Insight) {
         dateModified: article.updatedDate,
         mainEntityOfPage: { "@type": "WebPage", "@id": url },
         image: { "@type": "ImageObject", url: absolute(ogImage), width: 1913, height: 963 },
-        author: { "@id": organizationId },
-        publisher: { "@id": organizationId },
+        author: editorialOrganization(),
+        publisher: editorialOrganization(),
+        reviewedBy: article.reviewerName ? { "@type": "Organization", name: article.reviewerName, url: absolute(editorial.policyPath) } : undefined,
         isPartOf: { "@id": websiteId },
         articleSection: article.category,
         inLanguage: "en-IN",
       },
       breadcrumbSchema([{ href: "/", label: "Home" }, { href: "/insights", label: "Insights" }, { href: `/insights/${article.slug}`, label: article.title }], `${url}#breadcrumb`),
     ],
+  };
+}
+
+export function projectFactsSchema() {
+  const url = absolute("/project-facts");
+  return {
+    "@type": "AboutPage",
+    "@id": `${url}#webpage`,
+    name: "Shivalik Presente project facts",
+    url,
+    dateModified: projectFacts.lastReviewed,
+    isPartOf: { "@id": websiteId },
+    about: { "@id": propertyId },
+    author: editorialOrganization(),
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: [
+        { "@type": "PropertyValue", name: "Total residences", value: projectFacts.totalResidences },
+        { "@type": "PropertyValue", name: "4 BHK published area", value: fourBhkAreaLabel },
+        { "@type": "PropertyValue", name: "6 BHK duplex published area", value: sixBhkAreaLabel },
+      ],
+    },
   };
 }
