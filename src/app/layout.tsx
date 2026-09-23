@@ -3,6 +3,7 @@ import { Instrument_Serif, Manrope } from "next/font/google";
 import { LeadProvider } from "@/components/forms/lead-provider";
 import { Analytics } from "@/components/analytics/analytics";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { FrontendDeterrent } from "@/components/security/frontend-deterrent";
 import { publicConfig } from "@/lib/config";
 import { createPageMetadata } from "@/lib/seo";
 import "./globals.css";
@@ -27,4 +28,4 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
   verification: publicConfig.googleSiteVerification ? { google: publicConfig.googleSiteVerification } : undefined,
 };
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return <html lang="en-IN"><body className={`${manrope.variable} ${instrument.variable}`}><a className="skip-link" href="#main-content">Skip to content</a><LeadProvider>{children}<SiteFooter /></LeadProvider><Analytics /></body></html>; }
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return <html lang="en-IN"><body className={`${manrope.variable} ${instrument.variable}`}><a className="skip-link" href="#main-content">Skip to content</a><LeadProvider>{children}<SiteFooter /></LeadProvider><Analytics /><FrontendDeterrent /></body></html>; }

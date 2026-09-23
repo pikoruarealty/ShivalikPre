@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { serverConfig } from "@/lib/config";
+import { serverConfig } from "@/lib/server-config";
 
 export const otpPendingCookie = "lead_otp_pending";
 export const otpVerifiedCookie = "lead_otp_verified";

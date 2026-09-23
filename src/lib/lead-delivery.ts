@@ -1,4 +1,4 @@
-import { serverConfig } from "@/lib/config";
+import { serverConfig } from "@/lib/server-config";
 
 export type StoredLead = {
   id: string;

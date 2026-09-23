@@ -148,7 +148,7 @@ export const project = {
   },
   factsLastReviewed: projectFacts.lastReviewed,
   leadSettings: {
-    popupDelayMs: 6000,
+    popupDelayMs: 7000,
     popupScrollThreshold: 0.25,
     popupSessionKey: "presente-lead-popup-seen",
     enableExitIntent: true,

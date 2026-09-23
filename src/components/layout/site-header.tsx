@@ -46,11 +46,11 @@ export function SiteHeader() {
       <Container className="header-inner">
         <Link className="wordmark" href="/" aria-label="Shivalik Présenté home">
           <Image
-            src="/images/presente/brand/presented-wordmark.webp"
+            src="/images/presente/brand/presente-official-logo.webp"
             alt="Shivalik Presente"
-            width={900}
-            height={300}
-            sizes="(max-width: 800px) 122px, 174px"
+            width={640}
+            height={144}
+            sizes="(max-width: 800px) 145px, 210px"
             fetchPriority="high"
             loading="eager"
           />

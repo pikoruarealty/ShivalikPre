@@ -5,6 +5,7 @@ out/
 !.env.example
 .DS_Store
 npm-debug.log*
+*.map
 .npm-cache/
 npm-install*.log
 package-lock.invalid.json

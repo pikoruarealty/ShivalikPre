@@ -1,18 +1,41 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { apiResponse, enforceRateLimit, readJsonBody, requestAddress, validateMutationRequest } from "@/lib/api-security";
 import { createVerifiedOtp, normaliseIndianPhone, otpPendingCookie, otpVerifiedCookie, readPendingOtp, verifyOtp } from "@/lib/otp";
 
 export const runtime = "nodejs";
+
 export async function POST(request: NextRequest) {
   try {
-    const { phone, code } = await request.json() as { phone?: unknown; code?: unknown };
-    const normalised = typeof phone === "string" ? normaliseIndianPhone(phone) : "";
-    const otp = typeof code === "string" ? code.replace(/\D/g, "") : "";
+    const invalidRequest = validateMutationRequest(request, 2_000);
+    if (invalidRequest) return invalidRequest;
+    const addressLimit = enforceRateLimit(`otp-verify:address:${requestAddress(request)}`, 30, 10 * 60 * 1_000);
+    if (addressLimit) return addressLimit;
+
+    const body = await readJsonBody(request, 2_000);
+    const values = body && typeof body === "object" ? body as Record<string, unknown> : {};
+    const normalised = typeof values.phone === "string" ? normaliseIndianPhone(values.phone) : "";
+    const otp = typeof values.code === "string" ? values.code.replace(/\D/g, "") : "";
     const pending = readPendingOtp(request.cookies.get(otpPendingCookie)?.value);
-    if (!pending || pending.phone !== normalised || !/^\d{4,8}$/.test(otp)) return NextResponse.json({ ok: false, error: "Request a new OTP and try again." }, { status: 400 });
-    if (!await verifyOtp(pending.sessionId, otp)) return NextResponse.json({ ok: false, error: "The OTP is incorrect or expired." }, { status: 400 });
-    const response = NextResponse.json({ ok: true });
-    response.cookies.set(otpVerifiedCookie, createVerifiedOtp(normalised), { httpOnly: true, sameSite: "strict", secure: process.env.NODE_ENV === "production", maxAge: 600, path: "/" });
+    if (!pending || pending.phone !== normalised || !/^\d{4,8}$/.test(otp)) {
+      return apiResponse({ ok: false, error: "Request a new OTP and try again." }, 400);
+    }
+
+    const sessionLimit = enforceRateLimit(`otp-verify:session:${pending.sessionId}`, 8, 10 * 60 * 1_000);
+    if (sessionLimit) return sessionLimit;
+    if (!await verifyOtp(pending.sessionId, otp)) return apiResponse({ ok: false, error: "The OTP is incorrect or expired." }, 400);
+
+    const response = apiResponse({ ok: true });
+    response.cookies.set(otpVerifiedCookie, createVerifiedOtp(normalised), {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 600,
+      path: "/",
+    });
     response.cookies.delete(otpPendingCookie);
     return response;
-  } catch { return NextResponse.json({ ok: false, error: "Couldn’t verify the OTP. Please try again." }, { status: 502 }); }
+  } catch (error) {
+    if (error instanceof Error && error.message === "PAYLOAD_TOO_LARGE") return apiResponse({ ok: false, error: "Request is too large." }, 413);
+    return apiResponse({ ok: false, error: "Couldn’t verify the OTP. Please try again." }, 502);
+  }
 }
