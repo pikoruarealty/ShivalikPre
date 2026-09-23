@@ -38,7 +38,7 @@ export function LeadCaptureModal({ open, source, variant, success, onClose, onSu
       dialog.current?.querySelectorAll<HTMLElement>(
         'button:not([disabled]), input:not([disabled]), select:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
       ) ?? [],
-    );
+    ).filter((element) => !element.closest("[inert]"));
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
@@ -106,10 +106,10 @@ export function LeadCaptureModal({ open, source, variant, success, onClose, onSu
             </div>
           ) : (
             <>
-              <p className="section-label">Private Residence Enquiry</p>
-              <h2 id="lead-modal-title">Request Priority Access</h2>
-              <p id="lead-modal-description" className="lead-modal-description">Complete the details below to continue and receive project information from our advisory team.</p>
-              <p className="site-visit-badge"><i />Site visits — by appointment only</p>
+              <p className="section-label">Official Project Enquiry</p>
+              <h2 id="lead-modal-title">Access current availability.</h2>
+              <p id="lead-modal-description" className="lead-modal-description">Tell us what you are considering. A secure mobile verification keeps your request private and direct.</p>
+              <p className="site-visit-badge"><i />Direct from the advisory team</p>
               <LeadForm source={source} variant={variant} onSuccess={onSuccess} />
               <p className="lead-benefits">Private callback <i /> Floor plan guidance <i /> Priority visit</p>
             </>

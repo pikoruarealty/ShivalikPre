@@ -19,13 +19,13 @@ export async function POST(request: NextRequest) {
 
     const phoneLimit = enforceRateLimit(`otp-request:phone:${normalised}`, 4, 10 * 60 * 1_000);
     if (phoneLimit) return phoneLimit;
-    const sessionId = await requestOtp(normalised);
+    const code = await requestOtp(normalised);
     const response = apiResponse({ ok: true });
-    response.cookies.set(otpPendingCookie, createPendingOtp(normalised, sessionId), {
+    response.cookies.set(otpPendingCookie, createPendingOtp(normalised, code), {
       httpOnly: true,
       sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 600,
+      maxAge: 300,
       path: "/",
     });
     return response;

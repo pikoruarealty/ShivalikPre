@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { apiResponse, enforceRateLimit, readJsonBody, requestAddress, validateMutationRequest } from "@/lib/api-security";
-import { createVerifiedOtp, normaliseIndianPhone, otpPendingCookie, otpVerifiedCookie, readPendingOtp, verifyOtp } from "@/lib/otp";
+import { createVerifiedOtp, matchesPendingOtp, normaliseIndianPhone, otpPendingCookie, otpVerifiedCookie, readPendingOtp } from "@/lib/otp";
 
 export const runtime = "nodejs";
 
@@ -16,13 +16,13 @@ export async function POST(request: NextRequest) {
     const normalised = typeof values.phone === "string" ? normaliseIndianPhone(values.phone) : "";
     const otp = typeof values.code === "string" ? values.code.replace(/\D/g, "") : "";
     const pending = readPendingOtp(request.cookies.get(otpPendingCookie)?.value);
-    if (!pending || pending.phone !== normalised || !/^\d{4,8}$/.test(otp)) {
+    if (!pending || pending.phone !== normalised || !/^\d{4}$/.test(otp)) {
       return apiResponse({ ok: false, error: "Request a new OTP and try again." }, 400);
     }
 
-    const sessionLimit = enforceRateLimit(`otp-verify:session:${pending.sessionId}`, 8, 10 * 60 * 1_000);
+    const sessionLimit = enforceRateLimit(`otp-verify:challenge:${pending.otpHash}`, 8, 10 * 60 * 1_000);
     if (sessionLimit) return sessionLimit;
-    if (!await verifyOtp(pending.sessionId, otp)) return apiResponse({ ok: false, error: "The OTP is incorrect or expired." }, 400);
+    if (!matchesPendingOtp(pending, otp)) return apiResponse({ ok: false, error: "The OTP is incorrect or expired." }, 400);
 
     const response = apiResponse({ ok: true });
     response.cookies.set(otpVerifiedCookie, createVerifiedOtp(normalised), {
