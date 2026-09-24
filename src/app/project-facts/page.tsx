@@ -35,7 +35,7 @@ export default function ProjectFactsPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main-content" className="seo-page">
+      <main id="main-content" tabIndex={-1} className="seo-page">
         <JsonLd data={{ "@context": "https://schema.org", "@graph": [projectFactsSchema(), breadcrumbSchema(crumbs)] }} />
         <div className="seo-wrap">
           <Breadcrumbs items={crumbs} />

@@ -36,6 +36,21 @@ export const projectFaqs: SeoFaq[] = [
     answer:
       "Use the project enquiry form to request current availability, price guidance and the relevant floor plan. Because inventory and commercial terms can change, confirm every detail for the dated offer you receive.",
   },
+  {
+    question: "Is Shivalik Présenté in Gandhinagar or GIFT City?",
+    answer:
+      "Both descriptions apply: Shivalik Présenté is positioned inside GIFT City, which is located in Gandhinagar, Gujarat. Buyers should request the precise site location and test the routes relevant to their household.",
+  },
+  {
+    question: "What is the difference between GIFT City and Gandhinagar as a property address?",
+    answer:
+      "Gandhinagar is the broader city and district context, while GIFT City is a specific planned business district within Gandhinagar. Exact micro-location, approach, daily services and commute should be compared project by project.",
+  },
+  {
+    question: "How should I compare Présenté with other luxury apartments in Gandhinagar?",
+    answer:
+      "Use the same checklist for every exact unit: plan, statutory area, room dimensions, privacy, orientation, views, lifts, parking, amenities, construction status, documents, maintenance and complete cost.",
+  },
 ];
 
 export const guideFaqs: Record<string, SeoFaq[]> = {
@@ -105,6 +120,33 @@ export const guideFaqs: Record<string, SeoFaq[]> = {
         "Request every applicable area definition together with dimensioned plans. Room sizes, circulation, decks, storage and service areas show how much of the advertised area supports everyday use.",
     },
   ],
+  "luxury-apartments-gandhinagar": [
+    {
+      question: "Is Shivalik Présenté in Gandhinagar or GIFT City?",
+      answer:
+        "Shivalik Présenté is positioned inside GIFT City, which is in Gandhinagar, Gujarat. Buyers should still verify the precise site, approach roads and the exact residence offered.",
+    },
+    {
+      question: "Which luxury home configurations are currently stated at Shivalik Présenté?",
+      answer:
+        "The stated collection includes large-format 4 BHK residences and three 6 BHK duplex penthouses. Current availability, floor, orientation, area and specifications must be confirmed for the exact home.",
+    },
+    {
+      question: "Does Gandhinagar have 5 BHK luxury apartments at Shivalik Présenté?",
+      answer:
+        "Shivalik Présenté does not currently list a 5 BHK configuration. Buyers looking for a large 5 BHK apartment in Gandhinagar can compare the project’s spacious 4 BHK residences with its 6 BHK duplex penthouses according to their actual room and household needs.",
+    },
+    {
+      question: "Is Shivalik Présenté ready to move or under construction?",
+      answer:
+        "Construction and possession information can change and should not be inferred from marketing copy. Request the current Gujarat RERA disclosure, construction update and dated possession information before deciding.",
+    },
+    {
+      question: "What should buyers verify about amenities and balconies?",
+      answer:
+        "Confirm the current amenity schedule, clubhouse and wellness specifications, operating plan and recurring cost. For balconies or vista decks, check depth, orientation, shade, wind, drainage, waterproofing and the exact outlook.",
+    },
+  ],
 };
 
 export const guideSeoOverrides: Record<
@@ -126,5 +168,13 @@ export const guideSeoOverrides: Record<
     h1: "Luxury apartments in GIFT City at Shivalik Présenté.",
     intro:
       "A buyer-focused guide to the project’s 4 BHK residences, 6 BHK duplex penthouses, riverfront setting, privacy features and details to verify.",
+  },
+  "luxury-apartments-gandhinagar": {
+    title: "Luxury Apartments in Gandhinagar | Shivalik Présenté, GIFT City",
+    description:
+      "Explore luxury apartments in Gandhinagar at Shivalik Présenté: 4 BHK riverfront residences and 6 BHK duplex penthouses inside GIFT City.",
+    h1: "Luxury apartments in Gandhinagar.",
+    intro:
+      "GIFT City is a premium Gandhinagar micro-market where buyers can compare large-format homes, privacy, amenities and regional connectivity in one location-led search.",
   },
 };

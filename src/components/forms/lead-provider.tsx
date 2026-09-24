@@ -37,7 +37,7 @@ export function LeadProvider({ children }: { children: ReactNode }) {
     const timer = window.setTimeout(autoOpen, project.leadSettings.popupDelayMs);
     return () => window.clearTimeout(timer);
   }, [autoOpen]);
-  return <LeadModalContext.Provider value={{ openLeadModal }}><div id="main-content" tabIndex={-1} aria-hidden={open || undefined}>{children}</div><LeadCaptureModal key={open ? `${source}-${variant}` : "closed"} open={open} source={source} variant={variant} success={success} onClose={closeAfterSuccess} onSuccess={() => setSuccess(true)} /><MobileStickyCta /></LeadModalContext.Provider>;
+  return <LeadModalContext.Provider value={{ openLeadModal }}><div id="site-shell" inert={open ? true : undefined} aria-hidden={open || undefined}>{children}</div><LeadCaptureModal key={open ? `${source}-${variant}` : "closed"} open={open} source={source} variant={variant} success={success} onClose={closeAfterSuccess} onSuccess={() => setSuccess(true)} /><MobileStickyCta /></LeadModalContext.Provider>;
 }
 
 export function useLeadModal() {

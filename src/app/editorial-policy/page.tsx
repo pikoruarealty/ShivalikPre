@@ -6,7 +6,7 @@ import { breadcrumbSchema, createPageMetadata, siteUrl } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "Editorial & Fact-Checking Policy",
-  description: "How Shivalik Presente buyer guides are sourced, reviewed, updated and corrected.",
+  description: "Learn how Shivalik Présenté property guides are sourced, fact-checked, reviewed, updated and corrected for GIFT City and Gandhinagar buyers.",
   path: editorial.policyPath,
 });
 
@@ -15,7 +15,7 @@ export default function EditorialPolicyPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main-content" className="seo-page">
+      <main id="main-content" tabIndex={-1} className="seo-page">
         <JsonLd data={{ "@context": "https://schema.org", "@graph": [{ "@type": "WebPage", name: "Editorial and fact-checking policy", url: `${siteUrl}${editorial.policyPath}`, dateModified: "2026-09-20" }, breadcrumbSchema(crumbs)] }} />
         <div className="seo-wrap">
           <Breadcrumbs items={crumbs} />

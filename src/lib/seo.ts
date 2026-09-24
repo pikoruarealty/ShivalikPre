@@ -11,7 +11,8 @@ const titleSuffix = "Shivalik Presente GIFT City";
 const fullTitle = (title: string) => {
   if (title.endsWith(`| ${titleSuffix}`)) return title;
   const primaryKeyword = title.split(" | ")[0].trim();
-  return `${primaryKeyword} | ${titleSuffix}`;
+  const brandedTitle = `${primaryKeyword} | ${titleSuffix}`;
+  return brandedTitle.length <= 68 ? brandedTitle : primaryKeyword;
 };
 
 export function createPageMetadata({
@@ -195,7 +196,7 @@ export function breadcrumbSchema(items: { href: string; label: string }[], id?: 
   };
 }
 
-export function insightsSchema() {
+export function insightsSchema(articles: Insight[]) {
   const url = absolute("/insights");
   return {
     "@context": "https://schema.org",
@@ -204,9 +205,20 @@ export function insightsSchema() {
         "@type": "CollectionPage",
         "@id": `${url}#collection`,
         name: "GIFT City Property Insights",
-        description: "Buyer guides about GIFT City, riverfront living and large-format residences.",
+        description: "Buyer guides about GIFT City, Gandhinagar, riverfront living and large-format residences.",
         url,
         isPartOf: { "@id": websiteId },
+        mainEntity: { "@id": `${url}#articles` },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${url}#articles`,
+        itemListElement: articles.map((article, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: article.title,
+          url: absolute(`/insights/${article.slug}`),
+        })),
       },
       breadcrumbSchema([{ href: "/", label: "Home" }, { href: "/insights", label: "Insights" }], `${url}#breadcrumb`),
     ],
@@ -234,7 +246,45 @@ export function articleSchema(article: Insight) {
         articleSection: article.category,
         inLanguage: "en-IN",
       },
+      ...(article.faqs ? [{
+        "@type": "FAQPage",
+        "@id": `${url}#faq`,
+        mainEntity: article.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      }] : []),
       breadcrumbSchema([{ href: "/", label: "Home" }, { href: "/insights", label: "Insights" }, { href: `/insights/${article.slug}`, label: article.title }], `${url}#breadcrumb`),
+    ],
+  };
+}
+
+export function guidesSchema(pages: SeoPage[]) {
+  const url = absolute("/guides");
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${url}#collection`,
+        name: "GIFT City and Gandhinagar Property Guides",
+        description: "A structured library of buyer guides for luxury property, large homes and residential projects in GIFT City and Gandhinagar.",
+        url,
+        isPartOf: { "@id": websiteId },
+        mainEntity: { "@id": `${url}#guides` },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${url}#guides`,
+        itemListElement: pages.map((page, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: page.h1,
+          url: absolute(`/${page.slug}`),
+        })),
+      },
+      breadcrumbSchema([{ href: "/", label: "Home" }, { href: "/guides", label: "Property Guides" }], `${url}#breadcrumb`),
     ],
   };
 }

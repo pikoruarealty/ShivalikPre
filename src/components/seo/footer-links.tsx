@@ -18,10 +18,12 @@ const groups = [
     title: "GIFT City",
     links: [
       ["/property-in-gift-city", "Property Guide"],
+      ["/guides", "All Property Guides"],
       ["/gift-city-real-estate-investment", "Investment"],
       ["/gift-city-for-nri-buyers", "NRI Buyers"],
       ["/luxury-apartments-gift-city", "Luxury Apartments"],
       ["/4-bhk-apartments-gift-city", "4 BHK in GIFT City"],
+      ["/luxury-apartments-gandhinagar", "Luxury Apartments in Gandhinagar"],
       ["/4-bhk-apartments-gandhinagar", "4 BHK in Gandhinagar"],
       ["/riverfront-apartments-gift-city", "Riverfront Living"],
     ],
