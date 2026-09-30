@@ -11,8 +11,9 @@ export const metadata = createPageMetadata({
 });
 
 const guideSlugs = {
+  "Project information": ["shivalik-presente-price", "shivalik-presente-brochure", "shivalik-presente-rera", "shivalik-presente-floor-plan", "shivalik-presente-specifications", "construction-updates"],
   "GIFT City property": ["luxury-apartments-gift-city", "property-in-gift-city", "gift-city-real-estate-investment", "gift-city-for-nri-buyers"],
-  "Homes and configurations": ["4-bhk-apartments-gift-city", "6-bhk-penthouse-gift-city", "riverfront-apartments-gift-city"],
+  "Homes and configurations": ["4-bhk-apartments-gift-city", "6-bhk-penthouse-gift-city", "riverfront-apartments-gift-city", "large-format-residences-gift-city"],
   "Gandhinagar and nearby": ["luxury-apartments-gandhinagar", "4-bhk-apartments-gandhinagar", "premium-apartments-near-ifsc-gift-city"],
 } as const;
 

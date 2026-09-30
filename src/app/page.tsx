@@ -32,8 +32,9 @@ import { websiteSchema } from "@/lib/seo";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: "Riverfront Residences in GIFT City",
-  description: "Explore Shivalik Présenté in GIFT City, Gandhinagar: 54 riverfront homes with large 4 BHK residences and limited 6 BHK duplex penthouses.",
+  title: "Shivalik Présenté GIFT City | 4 BHK & Duplex Penthouses",
+  description: "Explore Shivalik Présenté in GIFT City, Gandhinagar — a boutique collection of ultra-luxury riverfront 4 BHK residences and duplex penthouses.",
+  preserveTitle: true,
 });
 
 export default function HomePage() {

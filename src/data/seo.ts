@@ -1,9 +1,11 @@
 import { guideFaqs, guideSeoOverrides, projectFaqs } from "@/data/faqs";
 import { editorial } from "@/data/editorial";
+import { seoPlanPages } from "@/data/seo-plan-pages";
+import { seoPlanInsights } from "@/data/seo-plan-insights";
 
 export type Faq = { question: string; answer: string };
 export type ContentSection = { title: string; body: string[] };
-export type SeoPage = { slug: string; title: string; description: string; eyebrow: string; h1: string; intro: string; sections: ContentSection[]; facts?: string[]; faqs: Faq[]; related: { href: string; label: string }[]; cta: string; variant?: "private-presentation" | "brochure" | "project-details" | "general-enquiry" };
+export type SeoPage = { slug: string; title: string; description: string; eyebrow: string; h1: string; intro: string; sections: ContentSection[]; facts?: string[]; faqs: Faq[]; related: { href: string; label: string }[]; cta: string; variant?: "private-presentation" | "brochure" | "project-details" | "general-enquiry"; updatedDate?: string; sources?: { href: string; label: string }[] };
 export type Insight = { slug: string; title: string; description: string; category: string; publishedDate: string; updatedDate: string; excerpt: string; sections: ContentSection[]; faqs?: Faq[]; relatedPages: { href: string; label: string }[]; sources?: { href: string; label: string }[]; authorName?: string; reviewerName?: string };
 
 const s = (title: string, ...body: string[]): ContentSection => ({ title, body });
@@ -41,6 +43,7 @@ export const seoPages: SeoPage[] = [
     faqs: [{ question: "Are plans published here?", answer: "No. Current plans are shared through the enquiry flow when available." }, { question: "Which plans can I request?", answer: "4 BHK residences and 6 BHK duplex penthouses." }, { question: "What should I compare?", answer: "Usable dimensions, circulation, orientation, storage, services and the area basis." }], related, cta: "Request Floor Plan", variant: "project-details",
   },
 ];
+seoPages.push(...seoPlanPages);
 
 const guideData: Array<Omit<SeoPage, "eyebrow" | "related" | "cta">> = [
   { slug: "shivalik-presente-amenities", title: "Shivalik Présenté Amenities | GIFT City", description: "Explore the pool, wellness, fitness, cinema, recreation, social and landscaped amenities planned for Shivalik Présenté in GIFT City.", h1: "Amenities at Shivalik Présenté.", intro: "The amenity programme is intended to extend everyday life beyond the residence through wellness, movement, leisure, gathering and landscaped outdoor space.", facts: ["Infinity pool", "Fitness and wellness", "Cinema and recreation", "Landscaped spaces"], sections: [s("Wellness and movement", "The stated programme includes an infinity swimming pool, fitness centre and spa-oriented spaces. Buyers should request the current amenity schedule, dimensions, equipment specification, changing facilities and accessibility information.", "Capacity matters as much as the amenity name. Compare the number of residences with the size of shared facilities, proposed operating hours, staffing and guest rules."), s("Leisure and private entertainment", "Cinema and recreation spaces can support informal family time and private gatherings. Ask how these rooms are booked, how sound is managed and whether any usage charges or operating restrictions are proposed.", "A luxury clubhouse works best when circulation, acoustics and maintenance allow different activities to happen without compromising quieter spaces."), s("Social and dining spaces", "Lounge, dining and gathering areas are part of the stated programme. Review seating capacity, kitchen or service support, event access and how guests move through the building.", "For buyers comparing luxury flats with a clubhouse in Gandhinagar, the operating model and recurring cost are more informative than an amenity count alone."), s("Landscaped outdoor areas", "Landscaped spaces can provide shade, pause and outdoor movement within the development. Ask about planting, irrigation, drainage, accessibility, lighting, seating and the relationship between active and quiet areas."), s("What to verify before relying on an amenity", "Specifications, completion stages and operating arrangements can change. Request the latest approved plan and dated project material, then confirm what is included, when it is expected to be available and how maintenance costs are allocated.")], faqs: [{ question: "Is an infinity pool planned?", answer: "An infinity swimming pool is part of the stated amenity programme. Confirm its current specification and delivery status." }, { question: "What social and leisure spaces are included?", answer: "The stated programme includes cinema, recreation, lounge, dining, gathering and landscaped areas. Request the latest detailed schedule." }, { question: "Does an amenity list guarantee availability at handover?", answer: "No. Verify the approved plan, current construction status, specifications, handover scope and operating arrangements directly." }, { question: "What should buyers ask about maintenance?", answer: "Ask about projected charges, staffing, equipment upkeep, booking rules, guest use and how costs are allocated across residences." }] },
@@ -338,7 +341,7 @@ const existingInsights = insightData.map<Insight>(([slug, title, category, excer
   relatedPages: configurationLinks,
 }));
 
-export const insights: Insight[] = [...existingInsights, ...newInsights].map((article) => ({
+export const insights: Insight[] = [...existingInsights, ...newInsights, ...seoPlanInsights].map((article) => ({
   ...article,
   authorName: article.authorName ?? editorial.authorName,
   reviewerName: article.reviewerName ?? editorial.reviewerName,

@@ -69,6 +69,7 @@ export function LeadForm({ source, variant, onSuccess }: Props) {
     if (hasStarted.current) return;
     hasStarted.current = true;
     trackEvent("lead_form_start", { source, variant });
+    trackEvent("form_start", { source, variant });
   };
 
   const requestPhoneOtp = async () => {
@@ -109,6 +110,7 @@ export function LeadForm({ source, variant, onSuccess }: Props) {
     setSubmitError("");
     setShowWhatsAppFallback(false);
     trackEvent("lead_form_submit", { source, variant });
+    trackEvent("form_submit", { source, variant });
     try {
       const name = `${fields.name.trim()} ${fields.lastName.trim()}`.trim();
       const requirement = `${fields.requirement} · Budget: ${fields.budget}`;

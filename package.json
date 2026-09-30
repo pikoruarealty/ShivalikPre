@@ -12,6 +12,7 @@
     "start": "next start",
     "lint": "eslint .",
     "seo:audit": "node scripts/audit-seo.mjs",
+    "seo:checklist": "node scripts/generate-seo-checklist.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

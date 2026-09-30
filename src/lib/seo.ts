@@ -9,8 +9,11 @@ const absolute = (path: string) => new URL(path, `${siteUrl}/`).toString();
 const ogImage = "/images/presente/exterior/presente-exterior-wide.jpeg";
 const titleSuffix = "Shivalik Presente GIFT City";
 const fullTitle = (title: string) => {
-  if (title.endsWith(`| ${titleSuffix}`)) return title;
   const primaryKeyword = title.split(" | ")[0].trim();
+  const normalizedTitle = title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  if (title.endsWith(`| ${titleSuffix}`) || normalizedTitle.includes("shivalik presente")) {
+    return title.length <= 68 ? title : primaryKeyword;
+  }
   const brandedTitle = `${primaryKeyword} | ${titleSuffix}`;
   return brandedTitle.length <= 68 ? brandedTitle : primaryKeyword;
 };
@@ -23,6 +26,7 @@ export function createPageMetadata({
   index = true,
   publishedTime,
   modifiedTime,
+  preserveTitle = false,
 }: {
   title: string;
   description: string;
@@ -31,10 +35,11 @@ export function createPageMetadata({
   index?: boolean;
   publishedTime?: string;
   modifiedTime?: string;
+  preserveTitle?: boolean;
 }): Metadata {
   const url = absolute(path);
   const image = absolute(ogImage);
-  const resolvedTitle = fullTitle(title);
+  const resolvedTitle = preserveTitle ? title : fullTitle(title);
   return {
     title: { absolute: resolvedTitle },
     description,
@@ -176,6 +181,7 @@ export function pageSchema(page: SeoPage, path: string, crumbs: { href: string; 
         isPartOf: { "@id": websiteId },
         about: { "@id": propertyId },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+        dateModified: page.updatedDate,
         inLanguage: "en-IN",
       },
       breadcrumbSchema(crumbs, `${pageUrl}#breadcrumb`),

@@ -26,6 +26,19 @@ const facts = [
   ["Published internal height", projectFacts.internalHeight],
 ] as const;
 
+const pendingFacts = [
+  "Legal promoter entity",
+  "Exact project address",
+  "RERA registration number and date",
+  "Launch and possession dates",
+  "Tower and floor count",
+  "Statutory carpet and other area definitions",
+  "Current price range and payment plan",
+  "Parking allocation",
+  "Architect and project consultants",
+  "Possession status and construction stage",
+] as const;
+
 export default function ProjectFactsPage() {
   const crumbs = [
     { href: "/", label: "Home" },
@@ -61,6 +74,9 @@ export default function ProjectFactsPage() {
             <section>
               <h2>Details to verify before payment</h2>
               <p>Confirm the current Gujarat RERA record, legal promoter name, sanctioned configuration, exact project address, possession commitment, parking, specifications, total consideration and availability from current official documents and independent advisers.</p>
+              <ul className="source-list">
+                {pendingFacts.map((fact) => <li key={fact}>{fact}: <strong>verification pending</strong></li>)}
+              </ul>
             </section>
             <section>
               <h2>Primary sources</h2>

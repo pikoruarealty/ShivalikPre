@@ -24,7 +24,8 @@ Use this after the production deployment is live. Account ownership, DNS access 
 - Preferred managed setup: create a GTM web container, set `NEXT_PUBLIC_GTM_ID`, publish a GA4 Configuration tag and keep `NEXT_PUBLIC_GA4_ID` blank to avoid duplicate measurement.
 - Simpler setup: set `NEXT_PUBLIC_GA4_ID` and leave GTM blank. The website loads direct GA4 only when GTM is absent.
 - Implement the approved consent approach before activating non-essential analytics or advertising tags.
-- In GA4, mark `lead_form_success` as the primary conversion. Review `whatsapp_click`, `phone_click`, `brochure_request`, `floor_plan_request`, `factsheet_download`, `site_visit_request` and `map_directions_click` as supporting events.
+- In GA4, mark `lead_form_success` as the primary conversion. Review `whatsapp_click`, `call_click`, `brochure_request`, `price_request`, `floorplan_request`, `private_presentation_request`, `factsheet_download`, `site_visit_request` and `map_directions_click` as supporting events. `form_start` and `form_submit` provide funnel diagnostics.
+- Add `brochure_download`, `video_play` and `gallery_interaction` only when those interactions exist in the released experience; do not fire a download or play event from a request button.
 - Test events in Tag Assistant and GA4 DebugView, including internal navigation and mobile sticky CTAs.
 
 ## 4. Structured data and crawling

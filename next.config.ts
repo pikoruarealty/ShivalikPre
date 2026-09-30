@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/shivalik-presente", destination: "/", permanent: true },
+      { source: "/shivalik-presente-project-facts", destination: "/project-facts", permanent: true },
       { source: "/shivalik-presente-4-bhk", destination: "/4-bhk-apartments-gift-city", permanent: true },
       { source: "/shivalik-presente-penthouse", destination: "/6-bhk-penthouse-gift-city", permanent: true },
       { source: "/luxury-penthouses-gift-city", destination: "/6-bhk-penthouse-gift-city", permanent: true },

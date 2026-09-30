@@ -11,8 +11,9 @@ const manrope = Manrope({ subsets: ["latin"], variable: "--font-sans" });
 const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", variable: "--font-display" });
 export const metadata: Metadata = {
   ...createPageMetadata({
-    title: "Shivalik Présenté GIFT City | Riverfront Residences",
-    description: "Explore Shivalik Présenté, a private collection of 4 BHK riverfront residences and 6 BHK duplex penthouses in GIFT City, Gandhinagar.",
+    title: "Shivalik Présenté GIFT City | 4 BHK & Duplex Penthouses",
+    description: "Explore Shivalik Présenté in GIFT City, Gandhinagar — a boutique collection of ultra-luxury riverfront 4 BHK residences and duplex penthouses.",
+    preserveTitle: true,
   }),
   metadataBase: new URL(publicConfig.siteUrl),
   applicationName: "Shivalik Présenté",
