@@ -1,12 +1,18 @@
 import { serverConfig } from "@/lib/server-config";
 
-export type StoredLead = {
-  id: string;
+export type LeadDetails = {
+  leadId: string;
+  jobId: string;
   name: string;
+  firstName?: string;
+  lastName?: string;
   phone: string;
   email?: string;
   requirement?: string;
+  budget?: string;
+  site: string;
   source: string;
+  formSource: string;
   variant: string;
   pathname?: string;
   referrer?: string;
@@ -15,13 +21,16 @@ export type StoredLead = {
   utm_campaign?: string;
   utm_content?: string;
   utm_term?: string;
-  created_at: string;
+  verifiedAt: string;
+  createdAt: string;
 };
 
-type LeadInput = Omit<StoredLead, "id" | "created_at">;
-
 export function isSupabaseConfigured() {
-  return Boolean(serverConfig.supabaseUrl && serverConfig.supabaseServiceRoleKey);
+  return Boolean(
+    serverConfig.supabaseUrl &&
+      serverConfig.supabaseSecretKey &&
+      serverConfig.micrositeJobId,
+  );
 }
 
 export function isBrevoConfigured() {
@@ -40,19 +49,29 @@ const escapeHtml = (value: string | undefined) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
 
-const fieldRows = (lead: StoredLead) => {
+const fieldRows = (lead: LeadDetails) => {
   const fields: Array<[string, string | undefined]> = [
     ["Name", lead.name],
+    ["First name", lead.firstName],
+    ["Last name", lead.lastName],
     ["Phone", lead.phone],
     ["Email", lead.email],
     ["Requirement", lead.requirement],
+    ["Budget", lead.budget],
+    ["Site", lead.site],
     ["Source", lead.source],
+    ["Form source", lead.formSource],
     ["Enquiry type", lead.variant],
     ["Page", lead.pathname],
+    ["Referrer", lead.referrer],
     ["UTM source", lead.utm_source],
     ["UTM medium", lead.utm_medium],
     ["UTM campaign", lead.utm_campaign],
-    ["Submitted at", lead.created_at],
+    ["UTM content", lead.utm_content],
+    ["UTM term", lead.utm_term],
+    ["Lead ID", lead.leadId],
+    ["Verified at", lead.verifiedAt],
+    ["Submitted at", lead.createdAt],
   ];
 
   return fields
@@ -97,31 +116,64 @@ async function sendBrevoEmail(message: BrevoMessage) {
   }
 }
 
-export async function saveLead(input: LeadInput): Promise<StoredLead> {
-  const { supabaseUrl, supabaseServiceRoleKey } = serverConfig;
-  if (!supabaseUrl || !supabaseServiceRoleKey) throw new Error("Supabase is not configured");
+const databaseMessage = (lead: LeadDetails) =>
+  [
+    `Site: ${lead.site}`,
+    `Source: ${lead.source}`,
+    `Form source: ${lead.formSource}`,
+    `Enquiry type: ${lead.variant}`,
+    `Page: ${lead.pathname ?? "Not provided"}`,
+    `Referrer: ${lead.referrer ?? "Not provided"}`,
+    `UTM source: ${lead.utm_source ?? "Not provided"}`,
+    `UTM medium: ${lead.utm_medium ?? "Not provided"}`,
+    `UTM campaign: ${lead.utm_campaign ?? "Not provided"}`,
+    `UTM content: ${lead.utm_content ?? "Not provided"}`,
+    `UTM term: ${lead.utm_term ?? "Not provided"}`,
+  ].join("\n");
+
+export async function saveLead(lead: LeadDetails): Promise<void> {
+  const { supabaseUrl, supabaseSecretKey, micrositeJobId } = serverConfig;
+  if (!supabaseUrl || !supabaseSecretKey || !micrositeJobId) {
+    throw new Error("Supabase microsite lead storage is not configured");
+  }
 
   const response = await fetch(
-    `${supabaseUrl.replace(/\/$/, "")}/rest/v1/leads`,
+    `${supabaseUrl.replace(/\/$/, "")}/rest/v1/microsite_leads`,
     {
       method: "POST",
       headers: {
-        apikey: supabaseServiceRoleKey,
+        apikey: supabaseSecretKey,
         "Content-Type": "application/json",
-        Prefer: "return=representation",
+        Prefer: "return=minimal",
       },
-      body: JSON.stringify(input),
+      body: JSON.stringify({
+        job_id: lead.jobId,
+        name: lead.name,
+        first_name: lead.firstName,
+        last_name: lead.lastName,
+        phone: lead.phone,
+        email: lead.email,
+        requirement: lead.requirement,
+        budget: lead.budget,
+        message: databaseMessage(lead),
+        source: lead.source,
+        verified_at: lead.verifiedAt,
+        lead_id: lead.leadId,
+        site: lead.site,
+      }),
       signal: AbortSignal.timeout(8_000),
     },
   );
 
-  if (!response.ok) throw new Error(`Supabase lead insert failed: ${response.status}`);
-  const rows = (await response.json()) as StoredLead[];
-  if (!rows[0]?.id) throw new Error("Supabase did not return the saved lead");
-  return rows[0];
+  if (!response.ok) {
+    const details = (await response.text()).slice(0, 300);
+    throw new Error(
+      `Supabase microsite lead insert failed: ${response.status}${details ? ` ${details}` : ""}`,
+    );
+  }
 }
 
-export async function sendLeadNotification(lead: StoredLead) {
+export async function sendLeadNotification(lead: LeadDetails) {
   const { leadAdminEmail } = serverConfig;
   if (!leadAdminEmail || !lead.email) {
     throw new Error("Brevo recipients are not configured");
@@ -133,10 +185,21 @@ export async function sendLeadNotification(lead: StoredLead) {
     `Phone: ${lead.phone}`,
     `Email: ${lead.email}`,
     `Requirement: ${lead.requirement ?? "Not provided"}`,
+    `Budget: ${lead.budget ?? "Not provided"}`,
+    `Site: ${lead.site}`,
     `Source: ${lead.source}`,
+    `Form source: ${lead.formSource}`,
     `Enquiry type: ${lead.variant}`,
     `Page: ${lead.pathname ?? "Not provided"}`,
-    `Submitted at: ${lead.created_at}`,
+    `Referrer: ${lead.referrer ?? "Not provided"}`,
+    `UTM source: ${lead.utm_source ?? "Not provided"}`,
+    `UTM medium: ${lead.utm_medium ?? "Not provided"}`,
+    `UTM campaign: ${lead.utm_campaign ?? "Not provided"}`,
+    `UTM content: ${lead.utm_content ?? "Not provided"}`,
+    `UTM term: ${lead.utm_term ?? "Not provided"}`,
+    `Lead ID: ${lead.leadId}`,
+    `Verified at: ${lead.verifiedAt}`,
+    `Submitted at: ${lead.createdAt}`,
   ].join("\n");
 
   const clientText = [
@@ -146,6 +209,7 @@ export async function sendLeadNotification(lead: StoredLead) {
     "We have received your enquiry. Our advisory team will contact you shortly with the requested project details.",
     "",
     `Requirement: ${lead.requirement ?? "Luxury residence"}`,
+    `Budget: ${lead.budget ?? "Not provided"}`,
     "",
     "Warm regards,",
     "Shivalik Présenté",

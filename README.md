@@ -43,7 +43,7 @@ Shivalik Présenté is a production Next.js website for a collection of riverfro
 | TypeScript | Type-safe application code | `src/` |
 | Tailwind CSS 4 + PostCSS | Styling toolchain | Global styles/build |
 | Vercel | Hosting, deployments and server functions | Production |
-| Supabase REST API | Stores verified enquiries in `public.leads` | `POST /api/leads` |
+| Supabase REST API | Stores verified enquiries in the shared `public.microsite_leads` table | `POST /api/leads` |
 | Brevo Transactional Email API | Sends sales notifications and visitor confirmations | `POST /api/leads` |
 | 2Factor OTP API | Sends and verifies Indian mobile OTP codes | `/api/otp/*` |
 | Google Search Console | Domain verification and indexing monitoring | Metadata/environment |
@@ -100,13 +100,16 @@ Variables prefixed with `NEXT_PUBLIC_` are included in browser-delivered code. N
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `SUPABASE_URL` | Required for database storage | Supabase project URL |
-| `SUPABASE_SERVICE_ROLE_KEY` | Required for database storage | Server-only service-role key used to insert leads |
+| `SUPABASE_SECRET_KEY` | Required for new projects | Server-only `sb_secret_...` key used to insert leads; never expose it to the browser |
+| `SUPABASE_SERVICE_ROLE_KEY` | Legacy fallback | Older JWT service-role key, used only when `SUPABASE_SECRET_KEY` is absent |
+| `MICROSITE_JOB_ID` | Recommended | `job_id` used by the shared records; defaults to `maruti360-website` |
+| `LEAD_MICROSITE_NAME` | Recommended | Value saved in `microsite_leads.site` and shown in sales emails; defaults to `maruti-360` |
 | `BREVO_API_KEY` | Required for email delivery | Brevo transactional email API key |
 | `BREVO_SENDER_EMAIL` | Required for email delivery | Sender address verified inside Brevo |
 | `BREVO_SENDER_NAME` | Recommended | Display name used for outgoing email |
 | `LEAD_ADMIN_EMAIL` | Required for notifications | Sales inbox that receives new enquiries |
 
-At least Supabase or Brevo must be configured for lead delivery, although production should use both for redundancy. Apply [`supabase/migrations/20260907000000_create_leads.sql`](supabase/migrations/20260907000000_create_leads.sql) before enabling Supabase storage. The migration enables Row Level Security and intentionally exposes no public insert policy because writes use the server-only service role.
+At least Supabase or Brevo must be configured for lead delivery, although production should use both for redundancy. The shared `public.microsite_leads` table must already exist; this project does not create or alter that schema. Database writes use the server-only service role and save `source` as `generated_microsite`, while the originating microsite is saved in `site`.
 
 ### Server-only OTP verification
 
@@ -177,7 +180,6 @@ ShivalikPre/
 │   │   └── seo/                  # SEO page UI and internal links
 │   ├── data/                     # SEO pages, FAQs and insight content
 │   └── lib/                      # Config, analytics, OTP, leads and schemas
-├── supabase/migrations/           # Database schema
 ├── .env.example                   # Safe environment variable template
 ├── next.config.ts
 └── package.json
@@ -189,7 +191,7 @@ ShivalikPre/
 2. Use the detected Next.js preset, Node.js 22 and the default `npm run build` command.
 3. Add the environment variables listed above without exposing server-only secrets.
 4. Add both `shivalikpresente.com` and `www.shivalikpresente.com`, then keep `https://www.shivalikpresente.com` as the canonical production domain.
-5. Apply the Supabase migration and verify the Brevo sender before testing enquiries.
+5. Confirm the shared Supabase schema and `MICROSITE_JOB_ID`, then verify the Brevo sender before testing enquiries.
 6. Deploy, test OTP and lead delivery, then check `/robots.txt`, `/sitemap.xml` and `/favicon.ico`.
 7. Submit `https://www.shivalikpresente.com/sitemap.xml` in Google Search Console and request indexing for representative pages.
 

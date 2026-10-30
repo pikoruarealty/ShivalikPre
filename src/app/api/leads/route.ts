@@ -1,7 +1,8 @@
 import { NextRequest } from "next/server";
 import { apiResponse, enforceRateLimit, readJsonBody, requestAddress, validateMutationRequest } from "@/lib/api-security";
-import { isBrevoConfigured, isSupabaseConfigured, saveLead, sendLeadNotification, type StoredLead } from "@/lib/lead-delivery";
+import { isBrevoConfigured, isSupabaseConfigured, saveLead, sendLeadNotification, type LeadDetails } from "@/lib/lead-delivery";
 import { isOtpConfigured, isPhoneOtpVerified, otpVerifiedCookie } from "@/lib/otp";
+import { serverConfig } from "@/lib/server-config";
 
 export const runtime = "nodejs";
 export const maxDuration = 20;
@@ -38,6 +39,8 @@ export async function POST(request: NextRequest) {
     if (text(values.website, 1)) return apiResponse({ ok: true });
 
     const name = text(values.name, 100);
+    const firstName = text(values.first_name, 50);
+    const lastName = text(values.last_name, 50);
     const phone = text(values.phone, 24).replace(/[\s()-]/g, "");
     const mail = text(values.email, 160);
     const source = text(values.source, 80);
@@ -55,12 +58,20 @@ export async function POST(request: NextRequest) {
     if (phoneLimit) return phoneLimit;
     if (!isOtpConfigured() || !isPhoneOtpVerified(request.cookies.get(otpVerifiedCookie)?.value, normalisedPhone)) return fail(403);
 
-    const leadInput = {
+    const submittedAt = new Date().toISOString();
+    const lead: LeadDetails = {
+      leadId: crypto.randomUUID(),
+      jobId: serverConfig.micrositeJobId ?? "",
       name,
-      phone,
+      firstName: firstName || name,
+      lastName: lastName || undefined,
+      phone: normalisedPhone,
       email: mail,
       requirement: text(values.requirement, 80) || undefined,
-      source,
+      budget: text(values.budget, 80) || undefined,
+      site: serverConfig.leadMicrositeName,
+      source: "generated_microsite",
+      formSource: source,
       variant,
       pathname: text(values.pathname, 180) || undefined,
       referrer: text(values.referrer, 300) || undefined,
@@ -69,10 +80,11 @@ export async function POST(request: NextRequest) {
       utm_campaign: text(values.utm_campaign, 120) || undefined,
       utm_content: text(values.utm_content, 120) || undefined,
       utm_term: text(values.utm_term, 120) || undefined,
+      verifiedAt: submittedAt,
+      createdAt: submittedAt,
     };
-    const lead: StoredLead = { id: crypto.randomUUID(), ...leadInput, created_at: new Date().toISOString() };
     const deliveries: Array<{ channel: "database" | "email"; request: Promise<unknown> }> = [];
-    if (canSaveLead) deliveries.push({ channel: "database", request: saveLead(leadInput) });
+    if (canSaveLead) deliveries.push({ channel: "database", request: saveLead(lead) });
     if (canEmailLead) deliveries.push({ channel: "email", request: sendLeadNotification(lead) });
 
     const results = await Promise.allSettled(deliveries.map(({ request: delivery }) => delivery));

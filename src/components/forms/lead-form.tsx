@@ -113,12 +113,14 @@ export function LeadForm({ source, variant, onSuccess }: Props) {
     trackEvent("form_submit", { source, variant });
     try {
       const name = `${fields.name.trim()} ${fields.lastName.trim()}`.trim();
-      const requirement = `${fields.requirement} · Budget: ${fields.budget}`;
       const result = await submitLead({
         name,
+        firstName: fields.name.trim(),
+        lastName: fields.lastName.trim() || undefined,
         phone: normalisePhone(fields.phone),
         email: fields.email.trim(),
-        requirement,
+        requirement: fields.requirement,
+        budget: fields.budget,
         source,
         variant,
         attribution: getAttribution(),
