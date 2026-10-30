@@ -102,8 +102,8 @@ Variables prefixed with `NEXT_PUBLIC_` are included in browser-delivered code. N
 | `SUPABASE_URL` | Required for database storage | Supabase project URL |
 | `SUPABASE_SECRET_KEY` | Required for new projects | Server-only `sb_secret_...` key used to insert leads; never expose it to the browser |
 | `SUPABASE_SERVICE_ROLE_KEY` | Legacy fallback | Older JWT service-role key, used only when `SUPABASE_SECRET_KEY` is absent |
-| `MICROSITE_JOB_ID` | Recommended | `job_id` used by the shared records; defaults to `maruti360-website` |
-| `LEAD_MICROSITE_NAME` | Recommended | Value saved in `microsite_leads.site` and shown in sales emails; defaults to `maruti-360` |
+| `MICROSITE_JOB_ID` | Recommended | `job_id` used by the shared records; defaults to `shivalik-presente-website` |
+| `LEAD_MICROSITE_NAME` | Recommended | Value saved in `microsite_leads.site` and shown in sales emails; defaults to `shivalik-presente` |
 | `BREVO_API_KEY` | Required for email delivery | Brevo transactional email API key |
 | `BREVO_SENDER_EMAIL` | Required for email delivery | Sender address verified inside Brevo |
 | `BREVO_SENDER_NAME` | Recommended | Display name used for outgoing email |
